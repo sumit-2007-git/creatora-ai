@@ -117,7 +117,7 @@ export default function AuraAuditPage() {
           </p>
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "1.1fr 0.9fr", gap: 32, alignItems: "start" }}>
+        <div className="tool-layout-grid">
           {/* Creator Profile Inputs */}
           <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
             {/* Basic Info */}
@@ -125,7 +125,7 @@ export default function AuraAuditPage() {
               <h3 style={{ margin: "0 0 14px", fontSize: 16, fontWeight: 800, color: "var(--ink)" }}>
                 1. Creator Profile Information
               </h3>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
+              <div className="tool-chips-grid" style={{ gap: 14 }}>
                 <div>
                   <label style={{ display: "block", fontSize: 12, fontWeight: 700, marginBottom: 5 }}>Creator Name</label>
                   <input

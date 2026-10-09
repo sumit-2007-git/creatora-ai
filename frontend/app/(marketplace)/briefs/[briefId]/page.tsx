@@ -133,10 +133,8 @@ export default function BriefDetailPage() {
 
             {/* Metrics Row */}
             <div
+              className="brief-stats-grid"
               style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(4, 1fr)",
-                gap: 16,
                 padding: "20px 0",
                 borderTop: "1.5px solid var(--line)",
                 borderBottom: "1.5px solid var(--line)",
@@ -162,7 +160,7 @@ export default function BriefDetailPage() {
             </div>
 
             {/* Detailed requirements */}
-            <div style={{ marginTop: 24, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 24 }}>
+            <div className="brief-reqs-grid" style={{ marginTop: 24 }}>
               <div>
                 <h4 style={{ margin: "0 0 8px", fontSize: 13, fontWeight: 800, textTransform: "uppercase" }}>Target Audience</h4>
                 <p style={{ margin: 0, fontSize: 13.5, color: "var(--pencil)" }}>{brief.targetAudience}</p>

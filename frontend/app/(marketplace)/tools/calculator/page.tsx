@@ -82,7 +82,7 @@ export default function RateCalculatorPage() {
           </p>
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "1.2fr 0.8fr", gap: 32, alignItems: "start" }}>
+        <div className="tool-layout-grid">
           {/* Controls Left Column */}
           <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
             {/* Step 1: Deliverable Type */}
@@ -127,7 +127,7 @@ export default function RateCalculatorPage() {
               <p style={{ fontSize: 12.5, color: "var(--muted)", margin: "0 0 12px" }}>
                 Select models required for the project (includes model subscriptions and GPU credits buffer):
               </p>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+              <div className="tool-chips-grid">
                 {TOOLS.map((t) => {
                   const active = selectedTools.includes(t.id);
                   return (

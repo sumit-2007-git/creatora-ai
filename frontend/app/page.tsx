@@ -8,15 +8,8 @@ export default function HomePage() {
     <PublicLayout>
       <main>
         {/* HERO SECTION */}
-        <section className="container" style={{ padding: "64px 0 54px" }}>
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1.05fr 0.95fr",
-              gap: 48,
-              alignItems: "center",
-            }}
-          >
+        <section className="container" style={{ padding: "48px 0 44px" }}>
+          <div className="hero-grid">
             {/* Left Copy */}
             <div>
               <div style={{ display: "inline-flex", alignItems: "center", gap: 8, marginBottom: 16 }}>
@@ -107,7 +100,7 @@ export default function HomePage() {
                 }}
               >
                 {/* Hero Illustration */}
-                <div style={{ position: "relative", height: 420, overflow: "hidden", background: "#EAE5DC" }}>
+                <div className="hero-image-frame">
                   <img
                     src="https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=1200&q=85"
                     alt="Japanese anime watercolor art"

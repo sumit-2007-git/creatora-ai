@@ -43,8 +43,9 @@ export function VideoModalPlayer({ item, onClose }: VideoModalPlayerProps) {
     >
       <div
         onClick={(e) => e.stopPropagation()}
+        className="video-modal-card"
         style={{
-          width: "min(880px, 100%)",
+          width: "min(880px, 96vw)",
           maxHeight: "92vh",
           background: "#FAF7F2",
           borderRadius: 24,

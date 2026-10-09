@@ -19,6 +19,7 @@ export default function DiscoverPage() {
   const [selectedGenre, setSelectedGenre] = useState<string>("");
   const [selectedTool, setSelectedTool] = useState<string>("");
   const [sortBy, setSortBy] = useState<"relevance" | "followers" | "engagement">("relevance");
+  const [showMobileFilters, setShowMobileFilters] = useState(false);
 
   const loadData = async () => {
     try {
@@ -148,11 +149,19 @@ export default function DiscoverPage() {
           </div>
         </div>
 
+        {/* Mobile Filter Toggle Button */}
+        <button
+          onClick={() => setShowMobileFilters(!showMobileFilters)}
+          className="button small secondary filter-toggle-mobile"
+        >
+          <span>{showMobileFilters ? "▲ Hide Filters" : "⚡ Filter Creators (Genre, Tools, Format)"}</span>
+        </button>
+
         {/* Layout with Sidebar Filters and Cards Grid */}
-        <div style={{ display: "grid", gridTemplateColumns: "240px minmax(0, 1fr)", gap: 32, alignItems: "start" }}>
+        <div className="discover-layout">
           {/* Left Filters Panel */}
           <aside
-            className="surface"
+            className={`surface ${showMobileFilters ? "filter-panel-open" : "filter-panel-desktop"}`}
             style={{
               padding: 22,
               borderRadius: 20,

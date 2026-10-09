@@ -158,7 +158,7 @@ export default function CreatorDetailPage() {
           </div>
 
           {/* Profile Header Details */}
-          <div style={{ padding: "0 34px 28px" }}>
+          <div className="creator-profile-padding">
             <div
               style={{
                 display: "flex",
@@ -255,10 +255,8 @@ export default function CreatorDetailPage() {
 
             {/* 4 Stats Cards matching design */}
             <div
+              className="creator-stats-grid"
               style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(4, 1fr)",
-                gap: 16,
                 padding: "20px 0 12px",
                 borderTop: "1.5px solid var(--line)",
                 borderBottom: "1.5px solid var(--line)",
@@ -344,7 +342,7 @@ export default function CreatorDetailPage() {
         </section>
 
         {/* TABS NAVIGATION */}
-        <div style={{ display: "flex", borderBottom: "1.5px solid var(--line)", marginBottom: 28 }}>
+        <div className="scrollable-tabs" style={{ borderBottom: "1.5px solid var(--line)", marginBottom: 28 }}>
           {[
             { id: "portfolio", label: "Portfolio" },
             { id: "about", label: "About" },

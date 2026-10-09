@@ -1,7 +1,14 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import type { ReactNode } from "react";
 import "./globals.css";
 import { CommandPalette } from "@/components/ui/CommandPalette";
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  themeColor: "#FAF7F2",
+};
 
 export const metadata: Metadata = {
   title: "Creatora AI — AI Creator Marketplace | Where Creativity Meets AI",

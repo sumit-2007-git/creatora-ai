@@ -209,6 +209,7 @@ export function CommandPalette() {
       {/* Floating Spotlight Launcher Button (Bottom Right) */}
       <button
         onClick={() => setOpen(true)}
+        className="spotlight-trigger-btn"
         aria-label="Open Creatora Spotlight Command Palette"
         style={{
           position: "fixed",
