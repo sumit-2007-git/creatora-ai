@@ -1,0 +1,2 @@
+const requirements = ["Creator-led concept", "Usage rights: 90 days", "1 revision included", "Organic + paid social"];
+export function BriefRequirements() { return <div style={{ display: "grid", gap: 11, marginTop: 15 }}>{requirements.map((item) => <div key={item} style={{ display: "flex", gap: 9, color: "#b4b7c0", fontSize: 11 }}><span style={{ color: "var(--lime)" }}>✓</span>{item}</div>)}</div>; }

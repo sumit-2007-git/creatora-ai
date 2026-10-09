@@ -1,0 +1,5 @@
+import { BriefRequirements } from "@/components/brief/BriefRequirements";
+
+export function BriefPreview({ title, description, category, budget }: { title: string; description: string; category: string; budget: string }) {
+  return <aside className="surface brief-preview"><span className="eyebrow"><span className="eyebrow-dot"/>Live preview</span><h2>{title || "Your campaign title"}</h2><span className="pill violet">{category}</span><p>{description || "Your campaign story will appear here. Tell creators what makes this idea worth bringing to life."}</p><div className="brief-budget"><span>Project budget</span><strong>{budget}</strong></div><span className="eyebrow">Creator-friendly details</span><BriefRequirements/><div className="surface" style={{ padding: 13, marginTop: 22, borderColor: "#a98bff25", background: "#a98bff08" }}><span className="eyebrow" style={{ color: "#c1afff" }}>✧ AI brief assistant</span><p style={{ margin: "8px 0 0", fontSize: 10 }}>Clear briefs attract better-fit creators. Your campaign will be matched on voice, audience, and creative style.</p></div></aside>;
+}

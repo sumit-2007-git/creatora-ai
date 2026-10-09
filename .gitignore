@@ -1,0 +1,39 @@
+# Dependencies
+node_modules/
+frontend/node_modules/
+
+# Next.js Build Output
+.next/
+frontend/.next/
+dist/
+*.tsbuildinfo
+frontend/*.tsbuildinfo
+
+# Python Cache & Virtual Environments
+__pycache__/
+*/__pycache__/
+*/*/__pycache__/
+*.py[cod]
+.venv/
+venv/
+ENV/
+
+# Secrets & Environment Variables
+.env
+.env.local
+frontend/.env.local
+backend/.env
+!.env.example
+!frontend/.env.example
+!backend/.env.example
+backend/service-account.json
+backend/*firebase-adminsdk*.json
+*service-account*.json
+
+# Nested redundant directory
+ai-creator-marketplace/
+
+# System Files
+.DS_Store
+Thumbs.db
+desktop.ini

@@ -1,0 +1,11 @@
+{
+  "name": "ember-ai-creator-marketplace",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "seed": "node frontend/scripts/seed.js",
+    "dev:frontend": "npm --prefix frontend run dev",
+    "build:frontend": "npm --prefix frontend run build",
+    "dev:backend": "python -m uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"
+  }
+}

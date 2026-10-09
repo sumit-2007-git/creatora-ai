@@ -1,0 +1,34 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    
+    // Helper function
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    // Portfolio files: public read, write only by creator
+    match /portfolios/{creatorId}/{allPaths=**} {
+      allow read: if true;
+      allow write: if isAuthenticated() 
+        && request.auth.uid == creatorId
+        && request.resource.size < 50 * 1024 * 1024
+        && request.resource.contentType.matches('image/.*|video/.*|application/pdf');
+    }
+
+    // Profile avatars: public read, write by user
+    match /avatars/{userId}/{allPaths=**} {
+      allow read: if true;
+      allow write: if isAuthenticated() 
+        && request.auth.uid == userId
+        && request.resource.size < 10 * 1024 * 1024
+        && request.resource.contentType.matches('image/.*');
+    }
+
+    // Fallback for public assets
+    match /public/{allPaths=**} {
+      allow read: if true;
+      allow write: if isAuthenticated();
+    }
+  }
+}

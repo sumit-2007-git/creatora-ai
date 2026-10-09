@@ -1,0 +1,1 @@
+export function PortfolioMetadata({ views, likes, type }: { views: string; likes: string; type: string }) { return <div className="content-metrics"><span>◉ {views} views</span><span>♡ {likes}</span><span>▣ {type}</span></div>; }

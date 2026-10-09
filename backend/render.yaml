@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: ember-backend-api
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.8
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: GEMINI_MODEL
+        value: gemini-3.8-flash
+      - key: FIREBASE_PROJECT_ID
+        value: ember-98477
+      - key: FIREBASE_CLIENT_EMAIL
+        sync: false
+      - key: FIREBASE_PRIVATE_KEY
+        sync: false
+      - key: FIREBASE_STORAGE_BUCKET
+        value: ember-98477.firebasestorage.app
+      - key: FRONTEND_URL
+        value: https://ember-ai-creator-marketplace.vercel.app
+    healthCheckPath: /health
