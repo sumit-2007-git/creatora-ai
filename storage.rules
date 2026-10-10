@@ -25,6 +25,24 @@ service firebase.storage {
         && request.resource.contentType.matches('image/.*');
     }
 
+    // Proof verification assets (ComfyUI / Blender screenshots, PSD, C2PA media)
+    match /proofs/{creatorId}/{allPaths=**} {
+      allow read: if true;
+      allow write: if isAuthenticated() 
+        && request.auth.uid == creatorId
+        && request.resource.size < 25 * 1024 * 1024
+        && request.resource.contentType.matches('image/.*|application/.*');
+    }
+
+    // Workflow reference media
+    match /references/{creatorId}/{allPaths=**} {
+      allow read: if true;
+      allow write: if isAuthenticated() 
+        && request.auth.uid == creatorId
+        && request.resource.size < 25 * 1024 * 1024
+        && request.resource.contentType.matches('image/.*|video/.*');
+    }
+
     // Fallback for public assets
     match /public/{allPaths=**} {
       allow read: if true;

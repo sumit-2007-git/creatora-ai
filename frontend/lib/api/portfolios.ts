@@ -1,5 +1,5 @@
 import { apiRequest } from "./client";
-import { PortfolioItem } from "@/types/portfolio";
+import { PortfolioItem, WorkflowSuggestionPayload, WorkflowSuggestionResult } from "@/types/portfolio";
 
 export async function fetchPortfolios(filters?: { creatorId?: string; genre?: string; contentType?: string }): Promise<PortfolioItem[]> {
   const params: Record<string, string | undefined> = {};
@@ -27,5 +27,12 @@ export async function uploadPortfolioMedia(formData: FormData): Promise<Portfoli
 export async function deletePortfolioItem(id: string): Promise<any> {
   return apiRequest(`/api/portfolios/${id}`, {
     method: "DELETE",
+  });
+}
+
+export async function suggestPortfolioWorkflow(payload: WorkflowSuggestionPayload): Promise<WorkflowSuggestionResult> {
+  return apiRequest<WorkflowSuggestionResult>("/api/portfolios/suggest-workflow", {
+    method: "POST",
+    body: JSON.stringify(payload),
   });
 }

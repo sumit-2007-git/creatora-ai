@@ -16,6 +16,7 @@ from app.api.recommendations import router as recommendations_router
 from app.api.tools import router as tools_router
 from app.api.swipes import router as swipes_router
 from app.api.posts import router as posts_router
+from app.api.trust import router as trust_router
 from app.firebase.config import initialize_firebase, get_db
 
 load_dotenv()
@@ -57,6 +58,7 @@ app.include_router(recommendations_router, prefix="/api")
 app.include_router(tools_router, prefix="/api")
 app.include_router(swipes_router, prefix="/api")
 app.include_router(posts_router, prefix="/api")
+app.include_router(trust_router, prefix="/api")
 
 
 @app.get("/")

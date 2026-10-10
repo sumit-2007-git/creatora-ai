@@ -11,9 +11,17 @@ from app.firebase.firestore import get_doc, set_doc, list_docs, delete_doc
 from app.firebase.storage import upload_portfolio_file
 from app.api.auth import get_current_user, require_creator
 from app.schemas.portfolio import PortfolioItemCreate, PortfolioItemResponse
+from app.schemas.workflow import WorkflowSuggestionRequest, WorkflowSuggestionResponse
+from app.ai.workflow_suggester import suggest_portfolio_workflow
 
 logger = logging.getLogger("portfolios_api")
 router = APIRouter(prefix="/portfolios", tags=["portfolios"])
+
+
+@router.post("/suggest-workflow", response_model=WorkflowSuggestionResponse)
+async def get_workflow_suggestions(payload: WorkflowSuggestionRequest):
+    """Propose tools, models, apps, and step-by-step pipeline from description using Gemini."""
+    return await suggest_portfolio_workflow(payload)
 
 
 @router.get("", response_model=List[PortfolioItemResponse])
@@ -68,9 +76,11 @@ async def upload_portfolio_media(
     genre: str = Form("Art"),
     toolsUsed: str = Form("Runway, Midjourney"),
     file: UploadFile = File(...),
+    workflowJson: Optional[str] = Form(None),
+    referenceFile: Optional[UploadFile] = File(None),
     current_user: Dict[str, Any] = Depends(require_creator)
 ):
-    """Upload media file to Firebase Storage and create portfolio document."""
+    """Upload media file to Firebase Storage and create portfolio document with workflow."""
     creator_id = current_user.get("creatorId") or f"creator-{current_user['uid'][:8]}"
     content = await file.read()
     content_type = file.content_type or "image/jpeg"
@@ -78,8 +88,27 @@ async def upload_portfolio_media(
     # Upload to storage
     media_url = upload_portfolio_file(creator_id, file.filename or "media.jpg", content, content_type)
 
+    ref_url = None
+    if referenceFile and referenceFile.filename:
+        try:
+            ref_content = await referenceFile.read()
+            ref_type = referenceFile.content_type or "image/jpeg"
+            ref_url = upload_portfolio_file(creator_id, f"ref_{referenceFile.filename}", ref_content, ref_type)
+        except Exception as e:
+            logger.warning(f"Failed to upload reference file: {e}")
+
     item_id = f"port-{uuid.uuid4().hex[:8]}"
     tools_list = [t.strip() for t in toolsUsed.split(",") if t.strip()]
+
+    parsed_workflow = None
+    if workflowJson:
+        try:
+            import json as json_lib
+            parsed_workflow = json_lib.loads(workflowJson)
+            if ref_url and not parsed_workflow.get("referenceImageUrl"):
+                parsed_workflow["referenceImageUrl"] = ref_url
+        except Exception as e:
+            logger.warning(f"Could not parse workflow JSON: {e}")
 
     data = {
         "id": item_id,
@@ -96,6 +125,8 @@ async def upload_portfolio_media(
         "views": "1.2K",
         "likes": "140",
         "aiTags": [genre, contentType] + tools_list,
+        "workflow": parsed_workflow,
+        "trustTier": "self-reported",
         "createdAt": datetime.now(timezone.utc).isoformat(),
         "publishedAt": datetime.now(timezone.utc).isoformat()
     }

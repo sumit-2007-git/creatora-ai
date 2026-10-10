@@ -6,6 +6,7 @@ export interface ScoreBreakdown {
   contentTypeFit: number;
   audienceFit: number;
   budgetFit: number;
+  trustFit?: number;
 }
 
 export interface RecommendationMatch {
@@ -317,7 +318,14 @@ export function computeMatchScore(brief: any, creator: any): RecommendationMatch
   else if (avail.includes("selective")) budgetFit = 6;
   if (creator.verified) budgetFit = Math.min(budgetFit + 1, 10);
 
-  const overallScore = Math.min(genreFit + toolsFit + contentTypeFit + audienceFit + budgetFit, 98);
+  // 6. Trust & Verification: 5 pts max
+  const trustTier = String(creator.trustTier || "self-reported").toLowerCase();
+  let trustFit = 2;
+  if (trustTier.includes("proof-backed")) trustFit = 5;
+  else if (trustTier.includes("link-checked")) trustFit = 3;
+  else if (trustTier.includes("needs-proof")) trustFit = 1;
+
+  const overallScore = Math.min(genreFit + toolsFit + contentTypeFit + audienceFit + budgetFit + trustFit, 99);
 
   let tier: RecommendationMatch["tier"] = "Emerging Fit";
   if (overallScore >= 85) tier = "Top Match";
@@ -340,6 +348,7 @@ export function computeMatchScore(brief: any, creator: any): RecommendationMatch
       contentTypeFit,
       audienceFit,
       budgetFit,
+      trustFit,
     },
     aiExplanation: `${creator.name} is classified as ${tier} (${overallScore}%) for '${brief.title}'. Strongest synergy lies in ${(creator.genres || []).slice(0, 2).join(", ")} content workflows paired with high-impact ${creator.tools?.[0] || "AI"} pipelines.`,
     matchedKeywords: Array.from(new Set(matchedKeywords)),

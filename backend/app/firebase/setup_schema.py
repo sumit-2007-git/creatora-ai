@@ -26,8 +26,18 @@ def setup_schema() -> int:
         except Exception as e:
             logger.warning(f"Could not purge demo docs in {col_name}: {e}")
 
-    # 1. 16 Genuinely Distinct Creators
-    creators = [
+    import json
+    data_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))), "frontend", "lib", "server", "marketplaceData.json")
+    loaded_data = None
+    if os.path.exists(data_path):
+        try:
+            with open(data_path, "r", encoding="utf-8") as f:
+                loaded_data = json.load(f)
+        except Exception as e:
+            logger.warning(f"Could not load marketplaceData.json: {e}")
+
+    # 1. 46 Genuinely Distinct Creators
+    creators = loaded_data.get("creators", []) if loaded_data else [
         {
             "creatorId": "creator-001",
             "uid": "user-creator-001",
@@ -842,8 +852,8 @@ def setup_schema() -> int:
         db.collection("briefs").document(b["id"]).set(b, merge=True)
         count += 1
 
-    # 4. Rich Portfolio Items (distinct per creator)
-    portfolios = [
+    # 4. Rich Portfolio Items (distinct per creator with full workflows)
+    portfolios = loaded_data.get("portfolios", []) if loaded_data else [
         # Aarav Sharma
         {
             "id": "port-001",

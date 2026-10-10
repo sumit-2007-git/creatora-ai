@@ -1,5 +1,6 @@
-from typing import List, Optional
+from typing import List, Optional, Any, Dict
 from pydantic import BaseModel, Field
+from app.schemas.workflow import WorkflowData
 
 
 class PortfolioItemBase(BaseModel):
@@ -15,6 +16,10 @@ class PortfolioItemBase(BaseModel):
     views: str = "12K"
     likes: str = "1.5K"
     aiTags: List[str] = Field(default_factory=list)
+    workflow: Optional[WorkflowData] = None
+    styleDescription: Optional[str] = None
+    styleTags: List[str] = Field(default_factory=list)
+    trustTier: Optional[str] = "self-reported"
 
 
 class PortfolioItemCreate(PortfolioItemBase):

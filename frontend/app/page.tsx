@@ -51,7 +51,7 @@ export default function HomePage() {
               Traditional talent platforms rely on manual browsing and static keyword tags, leaving brands struggling to find specialized generative video, 3D, and prompt engineering artists. Creatora AI bridges this gap through multimodal Gemini intelligence—evaluating visual aesthetic nuance, tool expertise, and portfolio resonance to match brand campaigns with top creators in seconds. By pairing natural-language search with swipe matchmaking and multi-creator production squads, we enable transparent, fair, and lightning-fast creative partnerships for the generative era.
             </p>
 
-            {/* EXACTLY TWO PRIMARY ACTION BUTTONS */}
+            {/* PRIMARY ACTION BUTTONS */}
             <div
               style={{
                 display: "flex",
@@ -59,7 +59,7 @@ export default function HomePage() {
                 alignItems: "center",
                 gap: 16,
                 flexWrap: "wrap",
-                marginBottom: 28,
+                marginBottom: 20,
               }}
             >
               <Link
@@ -72,7 +72,7 @@ export default function HomePage() {
                   boxShadow: "0 8px 24px rgba(124, 92, 252, 0.25)",
                 }}
               >
-                🎨 I'm a Creator
+                🎨 Join as Creator
               </Link>
               <Link
                 href="/register?role=BRAND"
@@ -83,14 +83,63 @@ export default function HomePage() {
                   fontWeight: 800,
                 }}
               >
-                🏢 I'm a Brand
+                🏢 Hire as Brand
               </Link>
             </div>
 
-            {/* Quick 1-Click Demo Shortcut Strip */}
+            {/* DEMO MODE DIRECT SHORTCUTS FOR JUDGES */}
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                gap: 12,
+                flexWrap: "wrap",
+                marginBottom: 24,
+              }}
+            >
+              <Link
+                href="/discover"
+                className="button small"
+                style={{
+                  background: "#4C6EF5",
+                  borderColor: "#4C6EF5",
+                  fontSize: 13,
+                  padding: "8px 18px",
+                  fontWeight: 800,
+                }}
+              >
+                🎮 Enter as Demo Brand (Solace Studio)
+              </Link>
+              <Link
+                href="/dashboard/creator"
+                className="button small secondary"
+                style={{
+                  fontSize: 13,
+                  padding: "8px 18px",
+                  fontWeight: 800,
+                }}
+              >
+                🎨 Enter as Demo Creator (Aarav Sharma)
+              </Link>
+              <Link
+                href="/demo"
+                className="button small ghost"
+                style={{
+                  fontSize: 13,
+                  padding: "8px 18px",
+                  fontWeight: 800,
+                  border: "1.5px solid var(--purple-line)",
+                  background: "#FFFFFF",
+                }}
+              >
+                📋 90s Judges Evaluation Guide
+              </Link>
+            </div>
+
+            {/* Quick 1-Click Feature Exploration Strip */}
             <div style={{ display: "inline-flex", alignItems: "center", gap: 10, padding: "8px 16px", background: "rgba(255, 255, 255, 0.7)", borderRadius: 20, border: "1px solid var(--line)" }}>
               <span style={{ fontSize: 11, fontWeight: 700, color: "var(--muted)", textTransform: "uppercase", letterSpacing: "0.05em" }}>
-                Instant Demo Exploration:
+                Instant Exploration:
               </span>
               <Link href="/discover" className="pill purple" style={{ fontSize: 11 }}>
                 🔍 AI Search & Discovery

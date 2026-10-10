@@ -92,7 +92,18 @@ def compute_weighted_match(brief: Dict[str, Any], creator: Dict[str, Any]) -> Di
     if creator.get("verified"):
         budget_score = min(budget_score + 1, 10)
 
-    total_score = min(genre_score + tool_score + content_score + audience_score + budget_score, 98)
+    # 6. Trust & Verification (5 pts max - transparently disclosed)
+    trust_tier = str(creator.get("trustTier", "self-reported")).lower()
+    if "proof-backed" in trust_tier:
+        trust_score = 5
+    elif "link-checked" in trust_tier:
+        trust_score = 3
+    elif "needs-proof" in trust_tier:
+        trust_score = 1
+    else:
+        trust_score = 2
+
+    total_score = min(genre_score + tool_score + content_score + audience_score + budget_score + trust_score, 99)
 
     # Determine tier
     if total_score >= 85:
@@ -110,6 +121,7 @@ def compute_weighted_match(brief: Dict[str, Any], creator: Dict[str, Any]) -> Di
         "platformMatch": content_score,
         "audienceMatch": audience_score,
         "budgetMatch": budget_score,
+        "trustMatch": trust_score,
     }
 
     return {

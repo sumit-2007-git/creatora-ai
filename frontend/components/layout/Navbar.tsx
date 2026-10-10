@@ -7,7 +7,7 @@ import { CreatoraLogo } from "@/components/ui/CreatoraLogo";
 
 import { fetchCreatorNotifications } from "@/lib/api/swipes";
 
-export function Navbar() {
+export function Navbar({ onStartTour }: { onStartTour?: () => void }) {
   const [user, setUser] = useState<AppUser | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [unreadCount, setUnreadCount] = useState(0);
@@ -57,8 +57,10 @@ export function Navbar() {
           <Link href="/brand/swipe" style={{ color: "var(--purple-primary)", fontWeight: 700 }}>
             🔥 Swipe
           </Link>
+          <Link href="/demo" style={{ color: "var(--ink)", fontWeight: 750 }}>
+            📋 Demo Guide
+          </Link>
           <Link href="/tools/moodboard">AI Tools</Link>
-          <Link href="/#about">About</Link>
         </nav>
 
         {/* Actions & Auth (Desktop) */}

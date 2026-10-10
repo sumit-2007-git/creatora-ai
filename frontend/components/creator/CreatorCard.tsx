@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { Creator } from "@/types/creator";
 import { toggleSaveCreator } from "@/lib/api/creators";
+import { TrustBadge } from "@/components/trust/TrustBadge";
 
 interface CreatorCardProps {
   creator: Creator;
@@ -150,9 +151,12 @@ export function CreatorCard({ creator, onContactClick }: CreatorCardProps) {
             {creator.name}
           </h3>
         </Link>
-        <span style={{ fontSize: 12, color: "var(--muted)", fontWeight: 500, marginBottom: 12 }}>
-          {creator.roleTitle || "AI Visual Creator"}
-        </span>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 6, marginBottom: 12 }}>
+          <span style={{ fontSize: 12, color: "var(--muted)", fontWeight: 500 }}>
+            {creator.roleTitle || "AI Visual Creator"}
+          </span>
+          <TrustBadge tier={creator.trustTier || "self-reported"} size="sm" />
+        </div>
 
         {/* Stats Row with Self-Reported label */}
         <div

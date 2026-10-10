@@ -19,6 +19,8 @@ from app.schemas.recommendation import (
     DreamTeamResponse,
     StructuredSearchQuery,
 )
+from app.ai.lookalike import analyze_style_with_gemini, rank_creators_lookalike, LookAlikeResponse
+from app.ai.filter_relaxation import compute_filter_relaxations, RelaxationResponse
 from app.api.auth import get_current_user
 
 logger = logging.getLogger("recommendations_api")
@@ -296,4 +298,56 @@ async def dream_team_endpoint(payload: DreamTeamRequest):
 
     creators = list_docs("creators")
     return await build_dream_team_with_gemini(brief_data, creators)
+
+
+class LookAlikeSearchRequest(BaseModel):
+    imageUrl: Optional[str] = None
+    promptHint: Optional[str] = None
+    portfolioItemId: Optional[str] = None
+
+
+@router.post("/lookalike", response_model=LookAlikeResponse)
+async def lookalike_endpoint(payload: LookAlikeSearchRequest):
+    """Visual style look-alike search matching creators and portfolios via Gemini Vision."""
+    target_image_url = payload.imageUrl
+    prompt_hint = payload.promptHint
+
+    # If portfolio item ID provided, retrieve image URL & notes from Firestore
+    if payload.portfolioItemId and not target_image_url:
+        item = get_doc("portfolios", payload.portfolioItemId)
+        if item:
+            target_image_url = item.get("mediaUrl") or item.get("thumbnailUrl")
+            if not prompt_hint:
+                prompt_hint = item.get("description") or item.get("title")
+
+    style_analysis = await analyze_style_with_gemini(
+        image_url=target_image_url,
+        prompt_hint=prompt_hint,
+    )
+
+    creators = list_docs("creators")
+    portfolios = list_docs("portfolios")
+
+    matches = rank_creators_lookalike(
+        style=style_analysis,
+        creators=creators,
+        portfolios=portfolios,
+    )
+
+    return LookAlikeResponse(
+        referenceStyle=style_analysis,
+        matches=matches,
+    )
+
+
+class FilterRelaxationRequest(BaseModel):
+    filters: Dict[str, Any] = Field(default_factory=dict)
+
+
+@router.post("/relaxations", response_model=RelaxationResponse)
+async def filter_relaxations_endpoint(payload: FilterRelaxationRequest):
+    """Deterministic filter relaxation suggestions and nearest match discovery."""
+    creators = list_docs("creators")
+    return compute_filter_relaxations(creators, payload.filters)
+
 

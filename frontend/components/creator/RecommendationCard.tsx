@@ -176,6 +176,10 @@ export function RecommendationCard({ recommendation, onContactClick }: Recommend
                 <span style={{ color: "var(--muted)" }}>Budget & Availability (10%):</span>
                 <strong>{bd.budgetMatch} / 10</strong>
               </div>
+              <div style={{ display: "flex", justifyContent: "space-between" }}>
+                <span style={{ color: "var(--muted)" }}>Verification & Trust (5%):</span>
+                <strong>{bd.trustMatch ?? 4} / 5</strong>
+              </div>
               <div style={{ display: "flex", justifyContent: "space-between", color: "var(--purple-primary)" }}>
                 <strong>Total Computed:</strong>
                 <strong>{score} / 100</strong>

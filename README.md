@@ -21,6 +21,27 @@ Designed with a **hand-drawn Japanese anime sketchbook aesthetic** (cream paper 
 
 ---
 
+## ⚡ Demo in 90 Seconds (Hackathon Judges Guide)
+
+Visit the live judge script at [`/demo`](file:///c:/Users/SUMIT/Downloads/ai-creator-marketplace/frontend/app/(marketplace)/demo/page.tsx) or follow this 5-step walkthrough:
+
+1. **Conversational Intent Search (`/discover`)**:
+   - Query: `"ad for sneakers"` or `"cyberpunk trailer"`.
+   - Observe Gemini intent extraction, live facet counts, proof-backed filtering, and deterministic filter relaxation chips on edge cases.
+2. **Tinder-Style Swipe & Match Deck (`/brand/swipe`)**:
+   - Review ranked creators with transparent match scores and the visible **5% Trust Factor** breakdown.
+   - Use `←` / `→` arrow keys to Like or Pass candidates.
+3. **Workflow-First AI Portfolios & Draggable Split Slider (`/creators/creator-001`)**:
+   - Click any portfolio piece to inspect how it was made (Midjourney ➔ Magnific ➔ Runway Gen-3).
+   - Drag the before-after split slider between the raw input reference and the final 8K render.
+4. **Gemini 1.5 Vision Proof Verification & Trust Tiers (`/creators/creator-001` > Trust Tab)**:
+   - Inspect the 4 Trust Tiers: `self-reported`, `link-checked`, `proof-backed`, and `needs-proof`.
+   - Observe the 5-point checklist and Gemini 1.5 Vision proof verifier validating ComfyUI/Blender workspace screenshots.
+5. **AI Brief Enhancer & Synergy Dream Team (`/briefs`)**:
+   - Inspect complementary multi-creator squads with collective follower reach and role allocations.
+
+---
+
 ## 🏗️ Architecture & Technology Stack
 
 | Layer | Technologies | Hackathon Benefits |

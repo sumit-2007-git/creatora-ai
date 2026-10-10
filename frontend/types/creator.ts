@@ -41,9 +41,55 @@ export interface Creator {
     monthlyViews?: number;
     videos?: number;
   };
+  trustTier?: "self-reported" | "link-checked" | "proof-backed" | "needs-proof";
+  trustScore?: number;
   isDemo?: boolean;
   createdAt?: string;
   updatedAt?: string;
+}
+
+export type TrustTier = "self-reported" | "link-checked" | "proof-backed" | "needs-proof";
+
+export interface TrustEvidence {
+  type: "url" | "image" | "c2pa";
+  url?: string;
+  description?: string;
+  c2paMetadata?: any;
+}
+
+export interface TrustClaim {
+  id: string;
+  creatorId: string;
+  type: "tool" | "workflow" | "past-work" | "licence" | "identity";
+  claim: string;
+  tier: TrustTier;
+  evidence: TrustEvidence[];
+  checkedAt?: string;
+  checkedBy?: "system" | "gemini";
+  confidence?: number;
+  observations?: string[];
+  mismatches?: string[];
+  reasons?: string[];
+  c2paDetected?: boolean;
+}
+
+export interface TrustProfile {
+  creatorId: string;
+  trustScore: number;
+  dominantTier: TrustTier;
+  claimsCount: number;
+  proofBackedCount: number;
+  linkCheckedCount: number;
+  selfReportedCount: number;
+  needsProofCount: number;
+  checklist: {
+    toolsVerified: boolean;
+    pastWorkLinked: boolean;
+    processProofAdded: boolean;
+    licenceStated: boolean;
+    profileComplete: boolean;
+  };
+  claims: TrustClaim[];
 }
 
 export interface CreatorFilterParams {
@@ -54,7 +100,8 @@ export interface CreatorFilterParams {
   platform?: string;
   specialization?: string;
   availability?: string;
-  sortBy?: "relevance" | "followers" | "engagement";
+  proofBackedOnly?: boolean;
+  sortBy?: "relevance" | "followers" | "engagement" | "heat" | "price";
 }
 
 export interface CreatorPost {

@@ -4,6 +4,7 @@ export interface WeightedBreakdown {
   platformMatch: number;
   audienceMatch: number;
   budgetMatch: number;
+  trustMatch?: number;
 }
 
 export interface CreatorRecommendation {
