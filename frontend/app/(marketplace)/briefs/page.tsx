@@ -9,6 +9,7 @@ import { demoBriefs } from "@/lib/demo-data";
 import { Brief } from "@/types/brief";
 import { CreatorRecommendation } from "@/types/recommendation";
 import { RecommendationCard } from "@/components/creator/RecommendationCard";
+import { DreamTeamModal } from "@/components/brief/DreamTeamModal";
 
 const ONE_CLICK_DEMO_BRIEFS = [
   {
@@ -68,6 +69,7 @@ export default function BriefsListPage() {
   const [recommendations, setRecommendations] = useState<CreatorRecommendation[]>([]);
   const [aiRationale, setAiRationale] = useState<string>("");
   const [matchingLoading, setMatchingLoading] = useState(false);
+  const [selectedDreamTeamBrief, setSelectedDreamTeamBrief] = useState<any>(null);
 
   useEffect(() => {
     const load = async () => {
@@ -220,6 +222,13 @@ export default function BriefsListPage() {
                 <div style={{ textAlign: "right" }}>
                   <span style={{ fontSize: 12, color: "var(--muted)", display: "block" }}>Budget</span>
                   <strong style={{ fontSize: 16, color: "var(--purple-primary)" }}>{activeDemoBrief.budget}</strong>
+                  <button
+                    onClick={() => setSelectedDreamTeamBrief(activeDemoBrief)}
+                    className="button small"
+                    style={{ marginTop: 8, fontSize: 11, background: "var(--purple-primary)", borderColor: "var(--purple-primary)" }}
+                  >
+                    ⚡ Build Dream Team
+                  </button>
                 </div>
               </div>
 
@@ -358,13 +367,30 @@ export default function BriefsListPage() {
                     </span>
                   )}
                 </div>
-                <Link href={`/briefs/${b.id}`} className="button small">
-                  View Brief & Apply →
-                </Link>
+                <div style={{ display: "flex", gap: 6 }}>
+                  <button
+                    onClick={() => setSelectedDreamTeamBrief(b)}
+                    className="button small secondary"
+                    style={{ fontSize: 11, padding: "0 8px" }}
+                    title="Build complementary 3-creator Dream Team squad for this brief"
+                  >
+                    ⚡ Dream Team
+                  </button>
+                  <Link href={`/briefs/${b.id}`} className="button small">
+                    View & Apply →
+                  </Link>
+                </div>
               </div>
             </article>
           ))}
         </div>
+
+        {/* Dream Team Builder Modal */}
+        <DreamTeamModal
+          brief={selectedDreamTeamBrief}
+          isOpen={!!selectedDreamTeamBrief}
+          onClose={() => setSelectedDreamTeamBrief(null)}
+        />
       </main>
     </PublicLayout>
   );

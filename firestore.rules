@@ -59,6 +59,30 @@ service cloud.firestore {
       allow update, delete: if isAuthenticated() && (resource.data.creatorUid == request.auth.uid || resource.data.brandUid == request.auth.uid);
     }
 
+    // Social posts: public read for discovery, write only by owning creator
+    match /posts/{postId} {
+      allow read: if true;
+      allow create: if isAuthenticated();
+      allow update, delete: if isAuthenticated() && (resource.data.creatorUid == request.auth.uid || resource.data.uid == request.auth.uid);
+    }
+
+    // Swipe matchmaking: brand creates and manages their swipes
+    match /swipes/{swipeId} {
+      allow read, write: if isAuthenticated();
+    }
+
+    // Creator inbox notifications: creator reads/acts, brand creates
+    match /notifications/{notificationId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated();
+      allow update, delete: if isAuthenticated();
+    }
+
+    // Confirmed matches and project threads
+    match /matches/{matchId} {
+      allow read, write: if isAuthenticated();
+    }
+
     // Public / analytical social data
     match /{collection}/{documentId} {
       allow read: if collection in ['instagram', 'youtube'];
@@ -66,3 +90,4 @@ service cloud.firestore {
     }
   }
 }
+

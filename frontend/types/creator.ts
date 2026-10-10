@@ -56,3 +56,72 @@ export interface CreatorFilterParams {
   availability?: string;
   sortBy?: "relevance" | "followers" | "engagement";
 }
+
+export interface CreatorPost {
+  id: string;
+  creatorId: string;
+  creatorUid?: string;
+  title: string;
+  description?: string;
+  originalUrl: string;
+  platform: string;
+  thumbnailUrl?: string;
+  tags?: string[];
+  toolsUsed?: string[];
+  contentType?: string;
+  industry?: string;
+  viewsCount?: number;
+  likesCount?: number;
+  isPinned?: boolean;
+  orderIndex?: number;
+  isSelfReported?: boolean;
+  createdAt: string;
+  updatedAt?: string;
+  isDemo?: boolean;
+}
+
+export interface SwipeDeckItem extends Creator {
+  matchPercentage: number;
+  tier: string;
+  weightedBreakdown: {
+    genreMatch: number;
+    toolMatch: number;
+    platformMatch: number;
+    audienceMatch: number;
+    budgetMatch: number;
+  };
+}
+
+export interface NotificationItem {
+  id: string;
+  brandId: string;
+  brandName: string;
+  creatorId: string;
+  creatorUid?: string;
+  briefId?: string;
+  briefTitle?: string;
+  introMessage: string;
+  link: string;
+  isRead: boolean;
+  status: "pending" | "accepted" | "declined";
+  createdAt: string;
+  isDemo?: boolean;
+}
+
+export interface MatchItem {
+  id: string;
+  brandId: string;
+  brandName: string;
+  creatorId: string;
+  creatorName: string;
+  creatorAvatar: string;
+  creatorHandle: string;
+  creatorRole?: string;
+  briefId?: string;
+  briefTitle?: string;
+  status: "accepted";
+  createdAt: string;
+  isDemo?: boolean;
+  projectThreadId?: string;
+}
+

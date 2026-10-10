@@ -8,6 +8,7 @@ import { importSocialProfile, importSocialProfileVision, confirmSocialImport } f
 import { uploadPortfolioMedia } from "@/lib/api/portfolios";
 import { CreatorInquiry } from "@/types/brief";
 import { ExtractedSocialProfile } from "@/types/social";
+import { CreatorPostsFeed } from "@/components/creator/CreatorPostsFeed";
 
 export default function CreatorDashboardPage() {
   const [user, setUser] = useState<any>(null);
@@ -191,7 +192,10 @@ export default function CreatorDashboardPage() {
             </p>
           </div>
 
-          <div style={{ display: "flex", gap: 10 }}>
+          <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+            <Link href="/creator/inbox" className="button small secondary" style={{ display: "flex", alignItems: "center", gap: 6 }}>
+              <span>📬 Talent Inbox</span>
+            </Link>
             <button onClick={() => setShowUploadModal(true)} className="button small">
               + Upload to Portfolio
             </button>
@@ -377,6 +381,14 @@ export default function CreatorDashboardPage() {
               ))}
             </div>
           )}
+        </section>
+
+        {/* CREATOR PUBLISHED POSTS & SOCIAL FEED */}
+        <section style={{ marginTop: 32 }}>
+          <CreatorPostsFeed
+            creatorId={user?.creatorId || "creator-001"}
+            isOwner={true}
+          />
         </section>
 
         {/* GEMINI SOCIAL IMPORT MODAL */}

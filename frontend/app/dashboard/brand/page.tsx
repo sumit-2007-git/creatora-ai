@@ -9,6 +9,7 @@ import { sendInquiry } from "@/lib/api/creators";
 import { RecommendationItem } from "@/types/api";
 import { Brief } from "@/types/brief";
 import { demoBriefs } from "@/lib/demo-data";
+import { AISearchBar } from "@/components/discovery/AISearchBar";
 
 export default function BrandDashboardPage() {
   const [user, setUser] = useState<any>(null);
@@ -121,14 +122,26 @@ export default function BrandDashboardPage() {
               Welcome back! 👋
             </h1>
             <p style={{ margin: 0, fontSize: 14, color: "var(--muted)" }}>
-              Here's an overview of your campaigns.
+              Search talent, swipe match candidates, and track active collaborations.
             </p>
           </div>
 
-          <Link href="/briefs/create" className="button">
-            + Create New Brief
-          </Link>
+          <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+            <Link href="/brand/swipe" className="button purple" style={{ display: "flex", alignItems: "center", gap: 6 }}>
+              <span>🔥 Swipe Matchmaking</span>
+            </Link>
+            <Link href="/brand/matches" className="button secondary" style={{ display: "flex", alignItems: "center", gap: 6 }}>
+              <span>🤝 Matches</span>
+            </Link>
+            <Link href="/briefs/create" className="button">
+              + Create Brief
+            </Link>
+          </div>
         </div>
+
+        {/* PROMINENT AI SEARCH BAR */}
+        <AISearchBar />
+
 
         {/* 4 STATS CARDS matching design */}
         <div className="grid-4" style={{ marginBottom: 32 }}>

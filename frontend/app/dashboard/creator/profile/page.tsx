@@ -5,6 +5,7 @@ import Link from "next/link";
 import { demoCreators } from "@/lib/demo-data";
 import { updateCreatorProfile } from "@/lib/api/creators";
 import { getStoredUser } from "@/lib/firebase/auth";
+import { CreatorPostsFeed } from "@/components/creator/CreatorPostsFeed";
 
 export default function CreatorProfileSettingsPage() {
   const [creator, setCreator] = useState(demoCreators[0]);
@@ -127,6 +128,10 @@ export default function CreatorProfileSettingsPage() {
             ))}
           </div>
         </aside>
+      </div>
+
+      <div style={{ marginTop: 40 }}>
+        <CreatorPostsFeed creatorId={creator.creatorId} isOwner={true} />
       </div>
     </div>
   );

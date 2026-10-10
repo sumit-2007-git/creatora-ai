@@ -26,6 +26,10 @@ let briefsList: any[] = [...seedData.briefs];
 let portfoliosList: any[] = [...seedData.portfolios];
 let inquiriesList: any[] = [...seedData.inquiries];
 let savedList: any[] = [...(seedData.saved || [])];
+let postsList: any[] = [...((seedData as any).posts || [])];
+let swipesList: any[] = [...((seedData as any).swipes || [])];
+let notificationsList: any[] = [...((seedData as any).notifications || [])];
+let matchesList: any[] = [...((seedData as any).matches || [])];
 let applicationsList: any[] = [];
 
 export function listCreators(filters?: {
@@ -364,3 +368,414 @@ export function rankCreatorsForBrief(brief: any) {
     generatedAt: new Date().toISOString(),
   };
 }
+
+// =================== POSTS ===================
+export function listPosts(creatorId: string) {
+  const posts = postsList.filter((p) => p.creatorId === creatorId);
+  posts.sort((a, b) => {
+    if (a.isPinned && !b.isPinned) return -1;
+    if (!a.isPinned && b.isPinned) return 1;
+    return (a.orderIndex || 0) - (b.orderIndex || 0);
+  });
+  return posts;
+}
+
+export function addPost(creatorId: string, postData: any) {
+  const cleanUrl = (postData.originalUrl || "").trim().toLowerCase();
+  const exists = postsList.some((p) => p.creatorId === creatorId && (p.originalUrl || "").trim().toLowerCase() === cleanUrl);
+  if (exists) {
+    throw new Error("A post with this URL has already been added to your profile.");
+  }
+  const pinnedCount = postsList.filter((p) => p.creatorId === creatorId && p.isPinned).length;
+  if (postData.isPinned && pinnedCount >= 3) {
+    throw new Error("Maximum of 3 featured posts can be pinned.");
+  }
+
+  const newPost = {
+    ...postData,
+    id: `post_${creatorId}_${Date.now()}`,
+    creatorId,
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+    isSelfReported: true,
+    isDemo: true,
+  };
+  postsList.unshift(newPost);
+  return newPost;
+}
+
+export function updatePost(creatorId: string, postId: string, updates: any) {
+  const index = postsList.findIndex((p) => p.id === postId && p.creatorId === creatorId);
+  if (index === -1) throw new Error("Post not found");
+
+  if (updates.isPinned && !postsList[index].isPinned) {
+    const pinnedCount = postsList.filter((p) => p.creatorId === creatorId && p.isPinned).length;
+    if (pinnedCount >= 3) throw new Error("Maximum of 3 featured posts can be pinned.");
+  }
+
+  postsList[index] = {
+    ...postsList[index],
+    ...updates,
+    updatedAt: new Date().toISOString(),
+  };
+  return postsList[index];
+}
+
+export function deletePost(creatorId: string, postId: string) {
+  const index = postsList.findIndex((p) => p.id === postId && p.creatorId === creatorId);
+  if (index === -1) throw new Error("Post not found");
+  postsList.splice(index, 1);
+  return { success: true };
+}
+
+// =================== SWIPES & MATCHES ===================
+export function getSwipeDeck(brandId: string, briefId?: string) {
+  const swipedIds = new Set(
+    swipesList.filter((s) => s.brandId === brandId).map((s) => s.creatorId)
+  );
+
+  const brief = briefId
+    ? briefsList.find((b) => b.id === briefId) || briefsList[0]
+    : briefsList[0];
+
+  const unswiped = creatorsList.filter((c) => !swipedIds.has(c.creatorId));
+  const scored = unswiped.map((c) => {
+    const scoreRes = computeMatchScore(brief, c);
+    return {
+      ...c,
+      matchPercentage: scoreRes.overallScore,
+      tier: scoreRes.tier,
+      weightedBreakdown: {
+        genreMatch: scoreRes.scoreBreakdown.genreFit,
+        toolMatch: scoreRes.scoreBreakdown.toolsFit,
+        platformMatch: scoreRes.scoreBreakdown.contentTypeFit,
+        audienceMatch: scoreRes.scoreBreakdown.audienceFit,
+        budgetMatch: scoreRes.scoreBreakdown.budgetFit,
+      },
+    };
+  });
+
+  scored.sort((a, b) => b.matchPercentage - a.matchPercentage);
+  return {
+    deck: scored,
+    totalRemaining: scored.length,
+    brandId,
+    briefTitle: brief.title,
+  };
+}
+
+export function recordSwipe(payload: {
+  brandId: string;
+  creatorId: string;
+  direction: "interested" | "pass";
+  briefId?: string;
+  introMessage?: string;
+}) {
+  const swipeId = `swipe_${payload.brandId}_${payload.creatorId}_${payload.briefId || "general"}`;
+  const now = new Date().toISOString();
+
+  const existingIndex = swipesList.findIndex((s) => s.id === swipeId);
+  if (existingIndex >= 0) {
+    swipesList[existingIndex].direction = payload.direction;
+    swipesList[existingIndex].timestamp = now;
+  } else {
+    swipesList.push({
+      id: swipeId,
+      brandId: payload.brandId,
+      creatorId: payload.creatorId,
+      briefId: payload.briefId,
+      direction: payload.direction,
+      timestamp: now,
+      isDemo: true,
+    });
+  }
+
+  let notificationCreated = false;
+  if (payload.direction === "interested") {
+    const notifId = `notif_${payload.brandId}_${payload.creatorId}_${payload.briefId || "general"}`;
+    const notifExists = notificationsList.some((n) => n.id === notifId);
+    if (!notifExists) {
+      const brand = seedData.brands?.find((b: any) => b.brandId === payload.brandId) || { companyName: "Aura Studio Global" };
+      const brief = payload.briefId ? briefsList.find((b) => b.id === payload.briefId) : null;
+
+      notificationsList.unshift({
+        id: notifId,
+        brandId: payload.brandId,
+        brandName: (brand as any).companyName || (brand as any).name || "Brand Partner",
+        creatorId: payload.creatorId,
+        creatorUid: `user-${payload.creatorId}`,
+        briefId: payload.briefId,
+        briefTitle: brief?.title,
+        introMessage: payload.introMessage || `We love your portfolio and would like to collaborate on an upcoming project!`,
+        link: `/brands/${payload.brandId}`,
+        isRead: false,
+        status: "pending",
+        createdAt: now,
+        isDemo: true,
+      });
+      notificationCreated = true;
+    }
+  }
+
+  return { success: true, direction: payload.direction, notificationCreated };
+}
+
+export function resetPasses(brandId: string) {
+  const initial = swipesList.length;
+  swipesList = swipesList.filter((s) => !(s.brandId === brandId && s.direction === "pass"));
+  return { success: true, resetCount: initial - swipesList.length };
+}
+
+export function getBrandMatches(brandId: string) {
+  const mutualMatches = matchesList.filter((m) => m.brandId === brandId);
+  const matchedIds = new Set(mutualMatches.map((m) => m.creatorId));
+
+  const brandSwipes = swipesList.filter((s) => s.brandId === brandId);
+  const creatorsMap = new Map(creatorsList.map((c) => [c.creatorId, c]));
+
+  const interestedPending: any[] = [];
+  const passes: any[] = [];
+
+  for (const s of brandSwipes) {
+    const c = creatorsMap.get(s.creatorId);
+    if (!c) continue;
+    const info = {
+      creatorId: c.creatorId,
+      name: c.name,
+      avatar: c.avatar,
+      handle: c.handle,
+      roleTitle: c.roleTitle,
+      rate: c.rate,
+      timestamp: s.timestamp,
+    };
+    if (s.direction === "interested" && !matchedIds.has(s.creatorId)) {
+      interestedPending.push(info);
+    } else if (s.direction === "pass") {
+      passes.push(info);
+    }
+  }
+
+  return { brandId, mutualMatches, interestedPending, passes };
+}
+
+export function getCreatorNotifications(creatorId: string) {
+  const notifs = notificationsList.filter((n) => n.creatorId === creatorId);
+  notifs.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+  const unreadCount = notifs.filter((n) => !n.isRead).length;
+  return { notifications: notifs, unreadCount, creatorId };
+}
+
+export function actionNotification(notificationId: string, action: string) {
+  const notif = notificationsList.find((n) => n.id === notificationId);
+  if (!notif) throw new Error("Notification not found");
+
+  const now = new Date().toISOString();
+  if (action === "accepted") {
+    notif.status = "accepted";
+    notif.isRead = true;
+
+    const creator = creatorsList.find((c) => c.creatorId === notif.creatorId) || { name: "Creator", avatar: "", handle: "@creator" };
+    const matchId = `match_${notif.brandId}_${notif.creatorId}_${notif.briefId || "direct"}`;
+    const exists = matchesList.some((m) => m.id === matchId);
+    if (!exists) {
+      matchesList.unshift({
+        id: matchId,
+        brandId: notif.brandId,
+        brandName: notif.brandName,
+        creatorId: notif.creatorId,
+        creatorName: creator.name,
+        creatorAvatar: creator.avatar,
+        creatorHandle: creator.handle,
+        creatorRole: creator.roleTitle || "AI Creator",
+        briefId: notif.briefId,
+        briefTitle: notif.briefTitle,
+        status: "accepted",
+        createdAt: now,
+        isDemo: true,
+        projectThreadId: `thread-${matchId}`,
+      });
+    }
+    return { success: true, status: "accepted", matchId };
+  } else if (action === "declined") {
+    notif.status = "declined";
+    notif.isRead = true;
+    return { success: true, status: "declined" };
+  } else if (action === "read") {
+    notif.isRead = true;
+    return { success: true, status: "read" };
+  }
+  throw new Error("Invalid action");
+}
+
+// =================== AI SEARCH & DREAM TEAM ===================
+export function searchCreatorsWithAI(query: string, structuredQuery?: any) {
+  const q = query.toLowerCase();
+
+  let industry = structuredQuery?.industry;
+  let contentType = structuredQuery?.contentType;
+  let style = structuredQuery?.style;
+  let tools = structuredQuery?.tools || [];
+  let budgetRange = structuredQuery?.budgetRange;
+
+  if (!industry) {
+    if (q.includes("sneaker") || q.includes("shoe")) industry = "Sneakers";
+    else if (q.includes("game") || q.includes("gaming") || q.includes("trailer")) industry = "Gaming";
+    else if (q.includes("car") || q.includes("automotive")) industry = "Automotive";
+    else if (q.includes("beauty") || q.includes("skin")) industry = "Beauty";
+    else if (q.includes("fashion") || q.includes("lookbook")) industry = "Fashion";
+    else industry = "Lifestyle";
+  }
+
+  if (!contentType) {
+    if (q.includes("reel")) contentType = "Reels";
+    else if (q.includes("film") || q.includes("trailer")) contentType = "AI Films";
+    else contentType = "Product Ads";
+  }
+
+  if (!style) {
+    if (q.includes("cinematic")) style = "Cinematic";
+    else if (q.includes("anime") || q.includes("sketch")) style = "Anime Sketchbook";
+    else style = "Cinematic";
+  }
+
+  if (!tools || tools.length === 0) {
+    if (q.includes("runway")) tools = ["Runway"];
+    else if (q.includes("midjourney")) tools = ["Midjourney"];
+    else tools = ["Runway", "Midjourney"];
+  }
+
+  if (!budgetRange) {
+    if (q.includes("cheap") || q.includes("low budget")) budgetRange = "$1,000–$2,500";
+    else if (q.includes("luxury")) budgetRange = "$6,000–$15,000";
+    else budgetRange = "$2,500–$5,000";
+  }
+
+  const resolvedStructured = {
+    industry,
+    contentType,
+    style,
+    platform: "Instagram",
+    skills: ["Prompt Engineering", "VFX"],
+    tools,
+    budgetRange,
+    licensingNeed: "Organic Social",
+    minFollowers: structuredQuery?.minFollowers,
+    minEngagementRate: structuredQuery?.minEngagementRate,
+  };
+
+  const briefProxy = {
+    id: "search-proxy",
+    title: query,
+    genres: [industry, style],
+    contentTypes: [contentType],
+    preferredTools: tools,
+    targetAudience: `${industry} Consumers`,
+    visualAesthetic: style,
+    budget: budgetRange,
+  };
+
+  const results = creatorsList.map((c) => {
+    const scoreRes = computeMatchScore(briefProxy, c);
+    const cPosts = postsList.filter((p) => p.creatorId === c.creatorId);
+    let score = scoreRes.overallScore;
+
+    // Bonus for matching posts
+    if (cPosts.some((p) => (p.industry || "").toLowerCase() === industry.toLowerCase())) {
+      score = Math.min(score + 4, 98);
+    }
+
+    const whyThisCreator = score >= 90
+      ? `Exceptional ${score}% alignment with ${industry} visual storytelling and mastered ${tools.join(", ")} pipelines.`
+      : score >= 75
+      ? `Strong creative resonance in ${c.genres?.[0] || industry} with reliable ${c.engagementRate}% engagement.`
+      : `Promising niche specialist with unique artistic flair.`;
+
+    const fol = c.totalFollowers || 0;
+    const folStr = fol >= 1000 ? `${Math.round(fol / 1000)}K` : `${fol}`;
+
+    return {
+      creatorId: c.creatorId,
+      name: c.name,
+      avatar: c.avatar,
+      handle: c.handle,
+      roleTitle: c.roleTitle,
+      matchPercentage: score,
+      tier: scoreRes.tier,
+      whyThisCreator,
+      weightedBreakdown: {
+        genreMatch: scoreRes.scoreBreakdown.genreFit,
+        toolMatch: scoreRes.scoreBreakdown.toolsFit,
+        platformMatch: scoreRes.scoreBreakdown.contentTypeFit,
+        audienceMatch: scoreRes.scoreBreakdown.audienceFit,
+        budgetMatch: scoreRes.scoreBreakdown.budgetFit,
+      },
+      genres: (c.genres || []).slice(0, 3),
+      tools: (c.tools || []).slice(0, 3),
+      totalFollowers: folStr,
+      engagementRate: `${c.engagementRate || 5.0}%`,
+      rate: c.rate || "$1,500",
+      commercialAvailability: c.commercialAvailability || "Immediate",
+      featuredPostUrl: cPosts[0]?.originalUrl,
+    };
+  });
+
+  results.sort((a, b) => b.matchPercentage - a.matchPercentage);
+
+  return {
+    query,
+    structuredQuery: resolvedStructured,
+    isBasicMode: false,
+    aiRationale: `Found ${results.slice(0, 8).length} elite creators matching '${query}' based on transparent multi-vector scoring.`,
+    results: results.slice(0, 8),
+  };
+}
+
+export function buildDreamTeamSquad(brief: any) {
+  const squad = [
+    {
+      role: "Lead AI Creative Director",
+      tool: "Runway",
+      creator: creatorsList.find((c) => (c.genres || []).includes("Fashion") || (c.tools || []).includes("Runway")) || creatorsList[0],
+      strength: "Cinematic pacing & brand integration",
+    },
+    {
+      role: "Concept & Prompt Specialist",
+      tool: "Midjourney",
+      creator: creatorsList.find((c) => (c.genres || []).includes("Art") || (c.genres || []).includes("Beauty")) || creatorsList[1],
+      strength: "Aesthetic consistency & character keyframing",
+    },
+    {
+      role: "Motion & VFX Colorist",
+      tool: "DaVinci Resolve",
+      creator: creatorsList.find((c) => (c.tools || []).includes("DaVinci Resolve") || (c.genres || []).includes("Tech")) || creatorsList[2],
+      strength: "Audio synchronization & high-dynamic color grading",
+    },
+  ];
+
+  const totalFollowers = squad.reduce((sum, item) => sum + (item.creator.totalFollowers || 0), 0);
+  const reachStr = totalFollowers >= 1000 ? `${Math.round(totalFollowers / 1000)}K Combined Reach` : `${totalFollowers} Reach`;
+
+  return {
+    briefId: brief?.id || "demo-brief",
+    campaignTitle: brief?.title || "Campaign Brief",
+    teamName: `Squad ${brief?.genres?.[0] || "Creatora"} Alpha`,
+    synergyScore: 97,
+    collectiveReach: reachStr,
+    estimatedBudget: "$6,200–$8,500",
+    turnaroundTime: "8–10 Days",
+    members: squad.map((item) => ({
+      creatorId: item.creator.creatorId,
+      name: item.creator.name,
+      avatar: item.creator.avatar,
+      handle: item.creator.handle,
+      assignedRole: item.role,
+      primaryTool: item.tool,
+      keyStrength: item.strength,
+      followers: item.creator.totalFollowers >= 1000 ? `${Math.round(item.creator.totalFollowers / 1000)}K` : `${item.creator.totalFollowers}`,
+      engagementRate: `${item.creator.engagementRate}%`,
+      rate: item.creator.rate || "$2,000",
+    })),
+    squadStrategy: "This 3-creator squad unites high-tempo directorial execution with world-class prompt engineering and technical color polish for maximum viral resonance.",
+  };
+}
+

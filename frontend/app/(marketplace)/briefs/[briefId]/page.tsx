@@ -7,6 +7,7 @@ import { fetchBriefById, applyToBrief, fetchBriefApplications, updateApplication
 import { demoBriefs } from "@/lib/demo-data";
 import { Brief, BriefApplication } from "@/types/brief";
 import { getStoredUser } from "@/lib/firebase/auth";
+import { DreamTeamModal } from "@/components/brief/DreamTeamModal";
 
 export default function BriefDetailPage() {
   const params = useParams();
@@ -16,6 +17,7 @@ export default function BriefDetailPage() {
   const [brief, setBrief] = useState<Brief | null>(null);
   const [applications, setApplications] = useState<BriefApplication[]>([]);
   const [currentUser, setCurrentUser] = useState<any>(null);
+  const [showDreamTeam, setShowDreamTeam] = useState(false);
 
   // Creator apply modal
   const [showApplyModal, setShowApplyModal] = useState(false);
@@ -119,7 +121,15 @@ export default function BriefDetailPage() {
                 </div>
               </div>
 
-              <div>
+              <div style={{ display: "flex", gap: 10, flexWrap: "wrap", alignItems: "center" }}>
+                <button
+                  type="button"
+                  onClick={() => setShowDreamTeam(true)}
+                  className="button secondary"
+                  style={{ display: "inline-flex", alignItems: "center", gap: 6 }}
+                >
+                  <span>⚡</span> Build Dream Team
+                </button>
                 <button onClick={() => setShowApplyModal(true)} className="button">
                   Apply for this Campaign →
                 </button>
@@ -305,6 +315,13 @@ export default function BriefDetailPage() {
           )}
         </div>
       </main>
+
+      {/* DREAM TEAM BUILDER MODAL */}
+      <DreamTeamModal
+        brief={brief}
+        isOpen={showDreamTeam}
+        onClose={() => setShowDreamTeam(false)}
+      />
     </PublicLayout>
   );
 }

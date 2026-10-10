@@ -6,6 +6,7 @@ import { CreatorCard } from "@/components/creator/CreatorCard";
 import { fetchCreators } from "@/lib/api/creators";
 import { demoCreators } from "@/lib/demo-data";
 import { Creator } from "@/types/creator";
+import { AISearchBar } from "@/components/discovery/AISearchBar";
 
 const CONTENT_TYPES = ["Reels", "YouTube", "Shorts", "Product Ads", "AI Films"];
 const GENRES = ["Fashion", "Tech", "Lifestyle", "Travel", "Food", "Art"];
@@ -72,7 +73,10 @@ export default function DiscoverPage() {
   return (
     <PublicLayout>
       <main className="container" style={{ padding: "40px 0 80px" }}>
-        {/* Top Search bar as shown in design */}
+        {/* Prominent AI Natural Language Search */}
+        <AISearchBar />
+
+        {/* Regular Filter Search bar as shown in design */}
         <div style={{ maxWidth: 840, margin: "0 auto 36px" }}>
           <div
             style={{

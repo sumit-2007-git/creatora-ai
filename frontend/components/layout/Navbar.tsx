@@ -5,12 +5,23 @@ import { useEffect, useState } from "react";
 import { getStoredUser, logOut, loginDemoCreator, loginDemoBrand, AppUser } from "@/lib/firebase/auth";
 import { CreatoraLogo } from "@/components/ui/CreatoraLogo";
 
+import { fetchCreatorNotifications } from "@/lib/api/swipes";
+
 export function Navbar() {
   const [user, setUser] = useState<AppUser | null>(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [unreadCount, setUnreadCount] = useState(0);
 
   useEffect(() => {
-    setUser(getStoredUser());
+    const u = getStoredUser();
+    setUser(u);
+    if (u?.role === "CREATOR") {
+      fetchCreatorNotifications(u.creatorId || "creator-001")
+        .then((res) => {
+          setUnreadCount(res?.unreadCount || 0);
+        })
+        .catch(() => {});
+    }
   }, []);
 
   const handleSwitchRole = async (targetRole: "CREATOR" | "BRAND") => {
@@ -43,6 +54,9 @@ export function Navbar() {
           <Link href="/discover">Discover</Link>
           <Link href="/creators">Creators</Link>
           <Link href="/briefs">Briefs</Link>
+          <Link href="/brand/swipe" style={{ color: "var(--purple-primary)", fontWeight: 700 }}>
+            🔥 Swipe
+          </Link>
           <Link href="/tools/moodboard">AI Tools</Link>
           <Link href="/#about">About</Link>
         </nav>
@@ -50,13 +64,83 @@ export function Navbar() {
         {/* Actions & Auth (Desktop) */}
         <div className="nav-actions desktop-only">
           {user ? (
-            <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+              {user.role === "CREATOR" && (
+                <Link
+                  href="/creator/inbox"
+                  className="button small ghost"
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 6,
+                    position: "relative",
+                    background: unreadCount > 0 ? "rgba(124, 92, 252, 0.1)" : "transparent",
+                    color: unreadCount > 0 ? "var(--purple-primary)" : "var(--ink)",
+                    border: "1.5px solid var(--line)",
+                    fontWeight: 700,
+                  }}
+                  title="Talent Inbox"
+                >
+                  <span>📬 Inbox</span>
+                  {unreadCount > 0 && (
+                    <span
+                      style={{
+                        background: "#FF4757",
+                        color: "#FFFFFF",
+                        fontSize: 10,
+                        fontWeight: 800,
+                        padding: "1px 6px",
+                        borderRadius: 10,
+                        lineHeight: 1.2,
+                      }}
+                    >
+                      {unreadCount}
+                    </span>
+                  )}
+                </Link>
+              )}
+
+              {user.role === "BRAND" && (
+                <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                  <Link
+                    href="/brand/swipe"
+                    className="button small ghost"
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 4,
+                      fontSize: 12,
+                      fontWeight: 700,
+                      border: "1.5px solid var(--line)",
+                    }}
+                    title="Swipe Discovery"
+                  >
+                    <span>🔥 Swipe</span>
+                  </Link>
+                  <Link
+                    href="/brand/matches"
+                    className="button small ghost"
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 4,
+                      fontSize: 12,
+                      fontWeight: 700,
+                      border: "1.5px solid var(--line)",
+                    }}
+                    title="Mutual Matches"
+                  >
+                    <span>🤝 Matches</span>
+                  </Link>
+                </div>
+              )}
+
               <Link
                 href={user.role === "CREATOR" ? "/dashboard/creator" : "/dashboard/brand"}
                 className="button small secondary"
                 style={{ display: "flex", alignItems: "center", gap: 6 }}
               >
-                <span>{user.role === "CREATOR" ? "🎨 Creator Studio" : "🏢 Brand Hub"}</span>
+                <span>{user.role === "CREATOR" ? "🎨 Studio" : "🏢 Brand Hub"}</span>
               </Link>
               <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                 {user.profileImage && (
@@ -179,9 +263,44 @@ export function Navbar() {
               🎬 Video Portfolio Showcase
             </Link>
             <Link
-              href="/tools/moodboard"
+              href="/brand/swipe"
               onClick={() => setMobileMenuOpen(false)}
               style={{ fontSize: 15, fontWeight: 700, color: "var(--purple-primary)", padding: "6px 0" }}
+            >
+              🔥 Swipe Matchmaking
+            </Link>
+            <Link
+              href="/brand/matches"
+              onClick={() => setMobileMenuOpen(false)}
+              style={{ fontSize: 15, fontWeight: 700, color: "var(--ink)", padding: "6px 0" }}
+            >
+              🤝 Brand Matches
+            </Link>
+            <Link
+              href="/creator/inbox"
+              onClick={() => setMobileMenuOpen(false)}
+              style={{ fontSize: 15, fontWeight: 700, color: "var(--ink)", padding: "6px 0", display: "flex", alignItems: "center", justifyContent: "space-between" }}
+            >
+              <span>📬 Creator Talent Inbox</span>
+              {unreadCount > 0 && (
+                <span
+                  style={{
+                    background: "#FF4757",
+                    color: "#FFFFFF",
+                    fontSize: 10,
+                    fontWeight: 800,
+                    padding: "2px 8px",
+                    borderRadius: 10,
+                  }}
+                >
+                  {unreadCount} new
+                </span>
+              )}
+            </Link>
+            <Link
+              href="/tools/moodboard"
+              onClick={() => setMobileMenuOpen(false)}
+              style={{ fontSize: 15, fontWeight: 700, color: "var(--pencil)", padding: "6px 0" }}
             >
               🎨 AI Moodboard & Tools
             </Link>

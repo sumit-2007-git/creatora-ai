@@ -38,3 +38,27 @@ export async function enhanceBriefWithAI(payload: {
     body: JSON.stringify(payload),
   });
 }
+
+export async function runAISearch(payload: {
+  query: string;
+  structuredQuery?: any;
+}): Promise<import("@/types/recommendation").AISearchResponse> {
+  return apiRequest("/api/recommendations/ai-search", {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+}
+
+export async function buildDreamTeam(payload: {
+  briefId?: string;
+  title?: string;
+  description?: string;
+  genres?: string[];
+  budget?: string;
+}): Promise<import("@/types/recommendation").DreamTeamResponse> {
+  return apiRequest("/api/recommendations/dream-team", {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+}
+

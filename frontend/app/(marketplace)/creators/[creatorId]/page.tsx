@@ -11,6 +11,7 @@ import { PortfolioItem } from "@/types/portfolio";
 import { getStoredUser } from "@/lib/firebase/auth";
 import { VideoPortfolioCard } from "@/components/portfolio/VideoPortfolioCard";
 import { VideoModalPlayer } from "@/components/portfolio/VideoModalPlayer";
+import { CreatorPostsFeed } from "@/components/creator/CreatorPostsFeed";
 
 export default function CreatorDetailPage() {
   const params = useParams();
@@ -18,7 +19,7 @@ export default function CreatorDetailPage() {
 
   const [creator, setCreator] = useState<Creator | null>(null);
   const [portfolios, setPortfolios] = useState<PortfolioItem[]>([]);
-  const [activeTab, setActiveTab] = useState<"portfolio" | "about" | "socials" | "insights">("portfolio");
+  const [activeTab, setActiveTab] = useState<"portfolio" | "posts" | "about" | "socials" | "insights">("portfolio");
   const [portfolioFilter, setPortfolioFilter] = useState<string>("All");
   const [isFollowing, setIsFollowing] = useState(false);
   const [followersCount, setFollowersCount] = useState(250000);
@@ -345,6 +346,7 @@ export default function CreatorDetailPage() {
         <div className="scrollable-tabs" style={{ borderBottom: "1.5px solid var(--line)", marginBottom: 28 }}>
           {[
             { id: "portfolio", label: "Portfolio" },
+            { id: "posts", label: "Published Posts 📱" },
             { id: "about", label: "About" },
             { id: "socials", label: "Socials" },
             { id: "insights", label: "AI Insights ✨" },
@@ -402,6 +404,14 @@ export default function CreatorDetailPage() {
               ))}
             </div>
           </div>
+        )}
+
+        {/* TAB: PUBLISHED SOCIAL POSTS */}
+        {activeTab === "posts" && (
+          <CreatorPostsFeed
+            creatorId={creator.creatorId || creatorId}
+            isOwner={getStoredUser()?.creatorId === (creator.creatorId || creatorId) || getStoredUser()?.uid === creator.uid}
+          />
         )}
 
         {/* TAB 2: ABOUT */}
