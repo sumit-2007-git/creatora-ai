@@ -145,28 +145,28 @@ export default function BrandDashboardPage() {
 
         {/* 4 STATS CARDS matching design */}
         <div className="grid-4" style={{ marginBottom: 32 }}>
-          <div className="stat-card">
-            <span style={{ fontSize: 12, color: "var(--muted)", fontWeight: 700, textTransform: "uppercase" }}>Active Briefs</span>
-            <div className="stat-value">3</div>
-            <div style={{ fontSize: 11, color: "var(--purple-primary)", fontWeight: 700, marginTop: 6 }}>● Live in marketplace</div>
+          <div className="stat-card surface surface-hover" style={{ padding: "20px 22px", borderRadius: 18, border: "2.5px solid var(--ink)", boxShadow: "var(--shadow-comic)", background: "var(--surface)" }}>
+            <span style={{ fontSize: 11.5, color: "var(--pencil)", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.05em" }}>Active Briefs</span>
+            <div className="stat-value" style={{ fontSize: 34, fontWeight: 900, fontFamily: "var(--font-heading)", color: "var(--ink)", margin: "8px 0 2px" }}>3</div>
+            <div style={{ fontSize: 11.5, color: "var(--purple-primary)", fontWeight: 800, marginTop: 4 }}>● Live in marketplace</div>
           </div>
 
-          <div className="stat-card">
-            <span style={{ fontSize: 12, color: "var(--muted)", fontWeight: 700, textTransform: "uppercase" }}>Total Applications</span>
-            <div className="stat-value">48</div>
-            <div style={{ fontSize: 11, color: "#2E7D32", fontWeight: 700, marginTop: 6 }}>+14 this week</div>
+          <div className="stat-card surface surface-hover" style={{ padding: "20px 22px", borderRadius: 18, border: "2.5px solid var(--ink)", boxShadow: "var(--shadow-comic)", background: "var(--surface)" }}>
+            <span style={{ fontSize: 11.5, color: "var(--pencil)", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.05em" }}>Total Applications</span>
+            <div className="stat-value" style={{ fontSize: 34, fontWeight: 900, fontFamily: "var(--font-heading)", color: "var(--ink)", margin: "8px 0 2px" }}>48</div>
+            <div style={{ fontSize: 11.5, color: "#2E7D32", fontWeight: 800, marginTop: 4 }}>+14 this week</div>
           </div>
 
-          <div className="stat-card">
-            <span style={{ fontSize: 12, color: "var(--muted)", fontWeight: 700, textTransform: "uppercase" }}>Shortlisted</span>
-            <div className="stat-value" style={{ color: "var(--purple-primary)" }}>12</div>
-            <div style={{ fontSize: 11, color: "var(--muted)", marginTop: 6 }}>In review pipeline</div>
+          <div className="stat-card surface surface-hover" style={{ padding: "20px 22px", borderRadius: 18, border: "2.5px solid var(--ink)", boxShadow: "var(--shadow-comic)", background: "var(--surface)" }}>
+            <span style={{ fontSize: 11.5, color: "var(--pencil)", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.05em" }}>Shortlisted</span>
+            <div className="stat-value" style={{ fontSize: 34, fontWeight: 900, fontFamily: "var(--font-heading)", color: "var(--purple-primary)", margin: "8px 0 2px" }}>12</div>
+            <div style={{ fontSize: 11.5, color: "var(--muted)", fontWeight: 700, marginTop: 4 }}>In review pipeline</div>
           </div>
 
-          <div className="stat-card">
-            <span style={{ fontSize: 12, color: "var(--muted)", fontWeight: 700, textTransform: "uppercase" }}>Completed</span>
-            <div className="stat-value">5</div>
-            <div style={{ fontSize: 11, color: "#2E7D32", fontWeight: 700, marginTop: 6 }}>100% delivered</div>
+          <div className="stat-card surface surface-hover" style={{ padding: "20px 22px", borderRadius: 18, border: "2.5px solid var(--ink)", boxShadow: "var(--shadow-comic)", background: "var(--surface)" }}>
+            <span style={{ fontSize: 11.5, color: "var(--pencil)", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.05em" }}>Completed</span>
+            <div className="stat-value" style={{ fontSize: 34, fontWeight: 900, fontFamily: "var(--font-heading)", color: "var(--ink)", margin: "8px 0 2px" }}>5</div>
+            <div style={{ fontSize: 11.5, color: "#2E7D32", fontWeight: 800, marginTop: 4 }}>100% delivered</div>
           </div>
         </div>
 

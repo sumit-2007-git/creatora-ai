@@ -136,18 +136,6 @@ export default function HomePage() {
               {loadingCreator ? "Entering..." : "🎨 Enter as demo creator"}
             </button>
           </div>
-
-          {/* Option for regular user login/signup */}
-          <div style={{ marginTop: 18, fontSize: 13.5, color: "var(--pencil)", fontWeight: 700 }}>
-            Have a personal or company account?{" "}
-            <a href="/login" style={{ color: "var(--purple-primary)", fontWeight: 800, textDecoration: "underline" }}>
-              Sign in with email
-            </a>
-            {" "}or{" "}
-            <a href="/register" style={{ color: "var(--purple-primary)", fontWeight: 800, textDecoration: "underline" }}>
-              Create an account
-            </a>
-          </div>
         </section>
 
         {/* TWO EQUAL PANELS IN THE MIDDLE OF THE PAGE */}

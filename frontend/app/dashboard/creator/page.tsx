@@ -207,28 +207,28 @@ export default function CreatorDashboardPage() {
 
         {/* 4 STATS CARDS matching design */}
         <div className="grid-4" style={{ marginBottom: 28 }}>
-          <div className="stat-card">
-            <span style={{ fontSize: 12, color: "var(--muted)", fontWeight: 700, textTransform: "uppercase" }}>Total Followers</span>
-            <div className="stat-value">250K</div>
-            <div style={{ fontSize: 11, color: "#2E7D32", fontWeight: 700, marginTop: 6 }}>+12% vs last month</div>
+          <div className="stat-card surface surface-hover" style={{ padding: "20px 22px", borderRadius: 18, border: "2.5px solid var(--ink)", boxShadow: "var(--shadow-comic)", background: "var(--surface)" }}>
+            <span style={{ fontSize: 11.5, color: "var(--pencil)", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.05em" }}>Total Followers</span>
+            <div className="stat-value" style={{ fontSize: 34, fontWeight: 900, fontFamily: "var(--font-heading)", color: "var(--ink)", margin: "8px 0 2px" }}>250K</div>
+            <div style={{ fontSize: 11.5, color: "#2E7D32", fontWeight: 800, marginTop: 4 }}>+12% vs last month</div>
           </div>
 
-          <div className="stat-card">
-            <span style={{ fontSize: 12, color: "var(--muted)", fontWeight: 700, textTransform: "uppercase" }}>Monthly Views</span>
-            <div className="stat-value">5M</div>
-            <div style={{ fontSize: 11, color: "#2E7D32", fontWeight: 700, marginTop: 6 }}>+19% vs last month</div>
+          <div className="stat-card surface surface-hover" style={{ padding: "20px 22px", borderRadius: 18, border: "2.5px solid var(--ink)", boxShadow: "var(--shadow-comic)", background: "var(--surface)" }}>
+            <span style={{ fontSize: 11.5, color: "var(--pencil)", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.05em" }}>Monthly Views</span>
+            <div className="stat-value" style={{ fontSize: 34, fontWeight: 900, fontFamily: "var(--font-heading)", color: "var(--ink)", margin: "8px 0 2px" }}>5M</div>
+            <div style={{ fontSize: 11.5, color: "#2E7D32", fontWeight: 800, marginTop: 4 }}>+19% vs last month</div>
           </div>
 
-          <div className="stat-card">
-            <span style={{ fontSize: 12, color: "var(--muted)", fontWeight: 700, textTransform: "uppercase" }}>Engagement Rate</span>
-            <div className="stat-value" style={{ color: "var(--purple-primary)" }}>7.5%</div>
-            <div style={{ fontSize: 11, color: "#2E7D32", fontWeight: 700, marginTop: 6 }}>+2.1% community growth</div>
+          <div className="stat-card surface surface-hover" style={{ padding: "20px 22px", borderRadius: 18, border: "2.5px solid var(--ink)", boxShadow: "var(--shadow-comic)", background: "var(--surface)" }}>
+            <span style={{ fontSize: 11.5, color: "var(--pencil)", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.05em" }}>Engagement Rate</span>
+            <div className="stat-value" style={{ fontSize: 34, fontWeight: 900, fontFamily: "var(--font-heading)", color: "var(--purple-primary)", margin: "8px 0 2px" }}>7.5%</div>
+            <div style={{ fontSize: 11.5, color: "#2E7D32", fontWeight: 800, marginTop: 4 }}>+2.1% community growth</div>
           </div>
 
-          <div className="stat-card">
-            <span style={{ fontSize: 12, color: "var(--muted)", fontWeight: 700, textTransform: "uppercase" }}>Profile Views</span>
-            <div className="stat-value">120K</div>
-            <div style={{ fontSize: 11, color: "#2E7D32", fontWeight: 700, marginTop: 6 }}>+24% brand impressions</div>
+          <div className="stat-card surface surface-hover" style={{ padding: "20px 22px", borderRadius: 18, border: "2.5px solid var(--ink)", boxShadow: "var(--shadow-comic)", background: "var(--surface)" }}>
+            <span style={{ fontSize: 11.5, color: "var(--pencil)", fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.05em" }}>Profile Views</span>
+            <div className="stat-value" style={{ fontSize: 34, fontWeight: 900, fontFamily: "var(--font-heading)", color: "var(--ink)", margin: "8px 0 2px" }}>120K</div>
+            <div style={{ fontSize: 11.5, color: "#2E7D32", fontWeight: 800, marginTop: 4 }}>+24% brand impressions</div>
           </div>
         </div>
 
