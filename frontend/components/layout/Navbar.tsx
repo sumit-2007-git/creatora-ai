@@ -6,6 +6,7 @@ import { getStoredUser, logOut, loginDemoCreator, loginDemoBrand, AppUser } from
 import { CreatoraLogo } from "@/components/ui/CreatoraLogo";
 
 import { fetchCreatorNotifications } from "@/lib/api/swipes";
+import { ThemeSwitcher } from "@/components/ui/ThemeSwitcher";
 
 export function Navbar({ onStartTour }: { onStartTour?: () => void }) {
   const [user, setUser] = useState<AppUser | null>(null);
@@ -51,16 +52,16 @@ export function Navbar({ onStartTour }: { onStartTour?: () => void }) {
 
         {/* Center Nav Links (Desktop) */}
         <nav className="nav-links desktop-only" aria-label="Main navigation">
-          <Link href="/discover">Discover</Link>
-          <Link href="/creators">Creators</Link>
-          <Link href="/briefs">Briefs</Link>
-          <Link href="/brand/swipe" style={{ color: "var(--purple-primary)", fontWeight: 700 }}>
+          <Link href="/discover" className="underline-draw">Discover</Link>
+          <Link href="/creators" className="underline-draw">Creators</Link>
+          <Link href="/briefs" className="underline-draw">Briefs</Link>
+          <Link href="/brand/swipe" className="underline-draw" style={{ color: "var(--purple-primary)", fontWeight: 800 }}>
             🔥 Swipe
           </Link>
-          <Link href="/demo" style={{ color: "var(--ink)", fontWeight: 750 }}>
+          <Link href="/demo" className="underline-draw" style={{ color: "var(--ink)", fontWeight: 800 }}>
             📋 Demo Guide
           </Link>
-          <Link href="/tools/moodboard">AI Tools</Link>
+          <Link href="/tools/moodboard" className="underline-draw">AI Tools</Link>
         </nav>
 
         {/* Actions & Auth (Desktop) */}
@@ -161,9 +162,11 @@ export function Navbar({ onStartTour }: { onStartTour?: () => void }) {
                   Log out
                 </button>
               </div>
+              <ThemeSwitcher />
             </div>
           ) : (
             <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
+              <ThemeSwitcher />
               <div style={{ display: "flex", gap: 6 }}>
                 <button
                   onClick={() => handleSwitchRole("CREATOR")}
@@ -182,7 +185,7 @@ export function Navbar({ onStartTour }: { onStartTour?: () => void }) {
                   ⚡ Demo Brand
                 </button>
               </div>
-              <Link href="/login" className="nav-login">
+              <Link href="/login" className="nav-login underline-draw">
                 Log in
               </Link>
               <Link href="/register" className="button small">
@@ -307,6 +310,11 @@ export function Navbar({ onStartTour }: { onStartTour?: () => void }) {
               🎨 AI Moodboard & Tools
             </Link>
           </nav>
+
+          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+            <span style={{ fontSize: 13, fontWeight: 700, color: "var(--ink)" }}>Appearance Theme:</span>
+            <ThemeSwitcher />
+          </div>
 
           <hr style={{ border: "none", borderTop: "1px solid var(--line)" }} />
 

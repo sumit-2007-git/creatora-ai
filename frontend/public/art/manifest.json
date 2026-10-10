@@ -1,0 +1,9 @@
+{
+  "illustrations": [
+    { "id": "sparkle-1", "path": "/art/sparkle.svg", "usage": "Hero and badge highlights" },
+    { "id": "ink-splat-1", "path": "/art/ink-splat.svg", "usage": "Section divider decor" },
+    { "id": "tape-strip-1", "path": "/art/tape-strip.svg", "usage": "Photo mounts and cards" },
+    { "id": "sakura-petal-1", "path": "/art/sakura-petal.svg", "usage": "Floating petal overlay" },
+    { "id": "manga-burst-1", "path": "/art/manga-burst.svg", "usage": "Action callouts" }
+  ]
+}

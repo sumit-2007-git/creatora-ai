@@ -103,27 +103,27 @@ export function AISearchBar({ onSearchResults }: { onSearchResults?: (results: A
     <div style={{ marginBottom: 36 }}>
       {/* Search Input Box */}
       <div
-        className="surface"
+        className="surface tape-strip"
         style={{
-          padding: "20px 24px",
-          borderRadius: 22,
-          border: "2px solid var(--purple-line)",
-          boxShadow: "0 8px 30px rgba(108, 92, 231, 0.08)",
-          background: "#FFFFFF",
+          padding: "22px 26px",
+          borderRadius: "22px 26px 20px 24px",
+          border: "2.5px solid var(--ink)",
+          boxShadow: "var(--shadow-comic-lg)",
+          background: "var(--surface)",
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
-          <span className="kanji-stamp" style={{ background: "var(--purple-soft)" }}>SEARCH</span>
-          <strong style={{ fontSize: 16, color: "var(--ink)" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 14 }}>
+          <span className="kanji-stamp">AI SEARCH</span>
+          <strong style={{ fontSize: 17, color: "var(--ink)", fontFamily: "var(--font-heading)" }}>
             AI Natural-Language Talent Search
           </strong>
           {searchResponse?.isBasicMode && (
-            <span className="pill" style={{ fontSize: 10, background: "#FFF3CD", borderColor: "#FFE69C", color: "#856404" }}>
+            <span className="pill yellow" style={{ fontSize: 10.5 }}>
               ⚡ Basic search mode
             </span>
           )}
           {searchResponse && !searchResponse.isBasicMode && (
-            <span className="pill purple" style={{ fontSize: 10 }}>
+            <span className="pill purple" style={{ fontSize: 10.5 }}>
               ✧ Gemini Structured Pipeline
             </span>
           )}
@@ -136,9 +136,10 @@ export function AISearchBar({ onSearchResults }: { onSearchResults?: (results: A
               display: "flex",
               alignItems: "center",
               background: "var(--surface-soft)",
-              border: "1.5px solid var(--line-strong)",
+              border: "2px solid var(--ink)",
               borderRadius: 14,
-              padding: "8px 16px",
+              padding: "10px 16px",
+              boxShadow: "2px 2px 0 var(--ink)",
             }}
           >
             <span style={{ fontSize: 18, marginRight: 10 }}>✨</span>
@@ -154,7 +155,7 @@ export function AISearchBar({ onSearchResults }: { onSearchResults?: (results: A
                 background: "transparent",
                 outline: "none",
                 fontSize: 15,
-                fontWeight: 600,
+                fontWeight: 700,
                 color: "var(--ink)",
               }}
             />
@@ -176,15 +177,15 @@ export function AISearchBar({ onSearchResults }: { onSearchResults?: (results: A
             onClick={() => executeSearch(query)}
             disabled={loading || !query.trim()}
             className="button"
-            style={{ minWidth: 120, height: 46 }}
+            style={{ minWidth: 140, height: 48 }}
           >
-            {loading ? "Searching..." : "Search Talent →"}
+            {loading ? "Searching..." : "Search Talent 🚀"}
           </button>
         </div>
 
         {/* Demo Example Queries */}
-        <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 14, flexWrap: "wrap" }}>
-          <span style={{ fontSize: 12, color: "var(--muted)", fontWeight: 700 }}>Try examples:</span>
+        <div style={{ display: "flex", alignItems: "center", gap: 8, marginTop: 16, flexWrap: "wrap" }}>
+          <span style={{ fontSize: 12, color: "var(--muted)", fontWeight: 800 }}>Try examples:</span>
           {DEMO_QUERIES.map((demo) => (
             <button
               key={demo.query}
@@ -192,14 +193,8 @@ export function AISearchBar({ onSearchResults }: { onSearchResults?: (results: A
                 setQuery(demo.query);
                 executeSearch(demo.query);
               }}
-              className="pill"
-              style={{
-                cursor: "pointer",
-                fontSize: 12,
-                fontWeight: 700,
-                background: query === demo.query ? "var(--purple-soft)" : "transparent",
-                borderColor: query === demo.query ? "var(--purple-primary)" : "var(--line)",
-              }}
+              className={`sticker-chip ${query === demo.query ? "active" : ""}`}
+              style={{ fontSize: 12 }}
             >
               {demo.label}
             </button>

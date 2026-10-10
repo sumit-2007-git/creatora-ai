@@ -16,36 +16,36 @@ const TIER_CONFIG: Record<
   "proof-backed": {
     label: "Proof-Backed",
     icon: "🛡️",
-    bg: "rgba(46, 125, 50, 0.12)",
-    color: "#2E7D32",
-    border: "#A5D6A7",
+    bg: "var(--mint)",
+    color: "var(--ink)",
+    border: "var(--ink)",
     tooltip:
       "Proof-Backed: The creator uploaded verifiable workspace project files, node trees, or timelapses verified by Gemini Vision (confidence ≥ 70%).",
   },
   "link-checked": {
     label: "Link-Checked",
     icon: "🔗",
-    bg: "rgba(33, 150, 243, 0.12)",
-    color: "#1976D2",
-    border: "#90CAF9",
+    bg: "var(--cyan)",
+    color: "var(--ink)",
+    border: "var(--ink)",
     tooltip:
       "Link-Checked: The post URL was fetched by our SSRF-safe backend gateway, confirming title, platform, and published media match the claim.",
   },
   "self-reported": {
     label: "Self-Reported",
     icon: "✎",
-    bg: "rgba(116, 111, 130, 0.1)",
-    color: "var(--pencil)",
-    border: "var(--line)",
+    bg: "var(--yellow)",
+    color: "var(--ink)",
+    border: "var(--ink)",
     tooltip:
       "Self-Reported: Creator-stated technical claim and metrics. Not yet verified via external proof screenshot or live link check.",
   },
   "needs-proof": {
     label: "Needs Proof",
     icon: "⚠️",
-    bg: "rgba(255, 179, 0, 0.14)",
-    color: "#E65100",
-    border: "#FFE082",
+    bg: "var(--orange)",
+    color: "var(--ink)",
+    border: "var(--ink)",
     tooltip:
       "Needs More Proof: The uploaded proof was evaluated by Gemini Vision but did not show sufficient interface controls or working project files.",
   },
@@ -65,17 +65,19 @@ export function TrustBadge({ tier = "self-reported", size = "sm", showTooltip = 
       onMouseLeave={() => setHovered(false)}
     >
       <span
+        className="pill"
         style={{
           display: "inline-flex",
           alignItems: "center",
           gap: isSmall ? 4 : 6,
-          padding: isSmall ? "2px 7px" : "4px 10px",
-          borderRadius: 8,
+          padding: isSmall ? "3px 8px" : "5px 12px",
+          borderRadius: 999,
           fontSize: isSmall ? 10.5 : 12,
-          fontWeight: 800,
+          fontWeight: 900,
           background: cfg.bg,
           color: cfg.color,
-          border: `1px solid ${cfg.border}`,
+          border: `2px solid ${cfg.border}`,
+          boxShadow: "2px 2px 0 var(--ink)",
           letterSpacing: "0.02em",
           cursor: "help",
           userSelect: "none",
@@ -93,18 +95,20 @@ export function TrustBadge({ tier = "self-reported", size = "sm", showTooltip = 
             bottom: "calc(100% + 8px)",
             left: "50%",
             transform: "translateX(-50%)",
-            background: "#1F1B2C",
-            color: "#FFFFFF",
+            background: "var(--paper2)",
+            color: "var(--ink)",
+            border: "2px solid var(--ink)",
+            boxShadow: "4px 4px 0 var(--ink)",
             padding: "8px 12px",
-            borderRadius: 8,
+            borderRadius: 10,
             fontSize: 11,
             lineHeight: 1.45,
             width: "max-content",
             maxWidth: 260,
-            boxShadow: "0 8px 24px rgba(0,0,0,0.25)",
             zIndex: 1000,
             pointerEvents: "none",
             textAlign: "center",
+            fontWeight: 600,
           }}
         >
           {cfg.tooltip}

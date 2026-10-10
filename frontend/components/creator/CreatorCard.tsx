@@ -43,15 +43,16 @@ export function CreatorCard({ creator, onContactClick }: CreatorCardProps) {
 
   return (
     <article
-      className="surface surface-hover"
+      className="surface surface-hover tape-strip"
       style={{
         overflow: "hidden",
         position: "relative",
         display: "flex",
         flexDirection: "column",
-        border: "1.5px solid var(--line)",
-        borderRadius: 22,
-        background: "#FFFFFF",
+        border: "2.5px solid var(--ink)",
+        borderRadius: "20px 24px 18px 22px",
+        background: "var(--surface)",
+        boxShadow: "var(--shadow-comic)",
       }}
     >
       {/* Cover / Scenery banner */}
@@ -59,6 +60,7 @@ export function CreatorCard({ creator, onContactClick }: CreatorCardProps) {
         <img
           src={creator.coverImage || "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=800&q=80"}
           alt={creator.name}
+          className="sketch-to-color"
           style={{ width: "100%", height: "100%", objectFit: "cover" }}
         />
         <div style={{ position: "absolute", top: 10, right: 10 }}>
@@ -69,9 +71,10 @@ export function CreatorCard({ creator, onContactClick }: CreatorCardProps) {
             style={{
               padding: "6px 8px",
               cursor: "pointer",
-              background: bookmarked ? "var(--purple-soft)" : "rgba(255,255,255,0.9)",
-              color: bookmarked ? "var(--purple-primary)" : "var(--muted)",
-              borderColor: bookmarked ? "var(--purple-line)" : "var(--line)"
+              background: bookmarked ? "var(--yellow)" : "var(--paper2)",
+              color: "var(--ink)",
+              borderColor: "var(--ink)",
+              boxShadow: "2px 2px 0 var(--ink)",
             }}
             title={bookmarked ? "Saved in bookmarks" : "Save Creator"}
           >
@@ -88,14 +91,15 @@ export function CreatorCard({ creator, onContactClick }: CreatorCardProps) {
             <img
               src={creator.avatar || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80"}
               alt={creator.name}
+              className="sketch-to-color"
               style={{
-                width: 60,
-                height: 60,
+                width: 62,
+                height: 62,
                 borderRadius: 18,
-                border: "3px solid #FFFFFF",
+                border: "2.5px solid var(--ink)",
                 objectFit: "cover",
-                boxShadow: "0 4px 14px rgba(0,0,0,0.08)",
-                background: "#FAF7F2"
+                boxShadow: "2px 2px 0 var(--ink)",
+                background: "var(--paper2)",
               }}
             />
             {creator.verified && (

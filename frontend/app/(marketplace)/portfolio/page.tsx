@@ -55,13 +55,13 @@ export default function PortfolioShowcasePage() {
         </div>
 
         {/* Filter Pills */}
-        <div style={{ display: "flex", gap: 8, marginBottom: 28, flexWrap: "wrap" }}>
+        <div style={{ display: "flex", gap: 10, marginBottom: 28, flexWrap: "wrap" }}>
           {["All", "AI Films", "Product Ads", "Reels", "Shorts"].map((pill) => (
             <button
               key={pill}
               onClick={() => setFilter(pill)}
-              className={`pill ${filter === pill ? "purple" : ""}`}
-              style={{ padding: "7px 16px", cursor: "pointer", fontSize: 13, fontWeight: 700 }}
+              className={`sticker-chip ${filter === pill ? "active" : ""}`}
+              style={{ fontSize: 13 }}
             >
               {pill}
             </button>

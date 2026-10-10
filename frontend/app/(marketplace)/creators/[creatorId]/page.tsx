@@ -417,8 +417,8 @@ export default function CreatorDetailPage() {
           </div>
         </section>
 
-        {/* TABS NAVIGATION */}
-        <div className="scrollable-tabs" style={{ borderBottom: "1.5px solid var(--line)", marginBottom: 28 }}>
+        {/* TABS NAVIGATION (Styled as Folder Tabs) */}
+        <div className="folder-tabs" style={{ marginBottom: 28 }}>
           {[
             { id: "portfolio", label: "Portfolio 🎨" },
             { id: "workflows", label: "Tools & Workflows ⚡" },
@@ -431,17 +431,7 @@ export default function CreatorDetailPage() {
             <button
               key={tab.id}
               onClick={() => setActiveTab(tab.id as any)}
-              style={{
-                padding: "12px 24px",
-                border: "none",
-                background: "transparent",
-                fontSize: 14.5,
-                fontWeight: activeTab === tab.id ? 800 : 600,
-                color: activeTab === tab.id ? "var(--purple-primary)" : "var(--muted)",
-                borderBottom: activeTab === tab.id ? "3px solid var(--purple-primary)" : "3px solid transparent",
-                cursor: "pointer",
-                transition: "all 0.18s ease",
-              }}
+              className={`folder-tab ${activeTab === tab.id ? "active" : ""}`}
             >
               {tab.label}
             </button>

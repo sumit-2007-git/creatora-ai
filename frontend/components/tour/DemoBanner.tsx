@@ -91,8 +91,8 @@ export function DemoBanner({ onStartTour }: DemoBannerProps) {
     <>
       <div
         style={{
-          background: "#FAF7F2",
-          borderBottom: "1.5px solid var(--purple-line)",
+          background: "var(--surface)",
+          borderBottom: "2.5px solid var(--ink)",
           padding: "8px 18px",
           display: "flex",
           justifyContent: "space-between",
@@ -103,15 +103,15 @@ export function DemoBanner({ onStartTour }: DemoBannerProps) {
           position: "sticky",
           top: 0,
           zIndex: 999,
-          boxShadow: "0 2px 10px rgba(76, 110, 245, 0.06)",
+          boxShadow: "0 2px 6px rgba(42, 29, 58, 0.08)",
         }}
       >
         {/* Left: Demo state badge & Role Switcher */}
         <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
             <span style={{ fontSize: 14 }}>🎮</span>
-            <strong style={{ color: "var(--ink)", fontWeight: 800 }}>DEMO MODE:</strong>
-            <span className={`pill ${isBrand ? "purple" : "green"}`} style={{ fontSize: 11, padding: "2px 8px" }}>
+            <strong style={{ color: "var(--ink)", fontWeight: 900 }}>DEMO MODE:</strong>
+            <span className={`pill ${isBrand ? "purple" : "yellow"}`} style={{ fontSize: 11, padding: "2px 8px" }}>
               {isBrand ? "🏢 Brand (Solace Studio)" : "🎨 Creator (Aarav Sharma)"}
             </span>
           </div>

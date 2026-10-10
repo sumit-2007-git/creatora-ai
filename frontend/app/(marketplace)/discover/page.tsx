@@ -419,11 +419,13 @@ function DiscoverContent() {
         <div className="discover-layout">
           {/* Left Filters Panel with Live Facet Counts */}
           <aside
-            className={`surface ${showMobileFilters ? "filter-panel-open" : "filter-panel-desktop"}`}
+            className={`surface tape-strip ${showMobileFilters ? "filter-panel-open" : "filter-panel-desktop"}`}
             style={{
-              padding: 22,
-              borderRadius: 20,
-              border: "1.5px solid var(--line)",
+              padding: 24,
+              borderRadius: "20px 24px 18px 22px",
+              border: "2.5px solid var(--ink)",
+              boxShadow: "var(--shadow-comic)",
+              background: "var(--surface)",
               position: "sticky",
               top: 96,
             }}

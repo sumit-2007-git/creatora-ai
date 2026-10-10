@@ -1,16 +1,18 @@
 import Link from "next/link";
 import { PublicLayout } from "@/components/layout/PublicLayout";
+import { ToolMarquee } from "@/components/ui/ToolMarquee";
+import { ScrollReveal } from "@/components/ui/ScrollReveal";
 
 export default function HomePage() {
   return (
     <PublicLayout>
       <main>
         {/* HERO SECTION */}
-        <section className="container" style={{ padding: "56px 0 48px", textAlign: "center" }}>
+        <section className="container" style={{ padding: "56px 0 40px", textAlign: "center" }}>
           <div style={{ maxWidth: 840, margin: "0 auto" }}>
             <div style={{ display: "inline-flex", alignItems: "center", gap: 8, marginBottom: 18 }}>
               <span className="kanji-stamp">CREATORA</span>
-              <span className="pill purple">Where Creativity Meets Generative Intelligence</span>
+              <span className="pill yellow">Where Creativity Meets Generative Intelligence</span>
             </div>
 
             <h1
@@ -154,25 +156,29 @@ export default function HomePage() {
           </div>
         </section>
 
+        {/* TOOL MARQUEE TICKER */}
+        <ToolMarquee />
+
         {/* 3-STEP WORKFLOW STRIP */}
-        <section
-          style={{
-            borderTop: "1.5px solid var(--line)",
-            borderBottom: "1.5px solid var(--line)",
-            background: "rgba(255, 255, 255, 0.65)",
-            padding: "44px 0",
-          }}
-        >
-          <div className="container">
-            <div style={{ textAlign: "center", marginBottom: 32 }}>
-              <span className="kanji-stamp">WORKFLOW</span>
-              <h2 style={{ margin: "6px 0 4px", fontSize: 24, fontWeight: 900, color: "var(--ink)" }}>
-                How Creatora AI Works
-              </h2>
-              <p style={{ margin: 0, fontSize: 13.5, color: "var(--muted)" }}>
-                From initial campaign concept to commercial generative delivery in 3 seamless steps.
-              </p>
-            </div>
+        <ScrollReveal>
+          <section
+            style={{
+              borderTop: "2.5px solid var(--ink)",
+              borderBottom: "2.5px solid var(--ink)",
+              background: "var(--surface)",
+              padding: "48px 0",
+            }}
+          >
+            <div className="container">
+              <div style={{ textAlign: "center", marginBottom: 32 }}>
+                <span className="kanji-stamp">WORKFLOW</span>
+                <h2 style={{ margin: "6px 0 4px", fontSize: 26, fontWeight: 900, color: "var(--ink)" }}>
+                  How Creatora AI Works
+                </h2>
+                <p style={{ margin: 0, fontSize: 14, color: "var(--muted)" }}>
+                  From initial campaign concept to commercial generative delivery in 3 seamless steps.
+                </p>
+              </div>
 
             <div
               style={{
@@ -288,6 +294,7 @@ export default function HomePage() {
             </div>
           </div>
         </section>
+      </ScrollReveal>
 
         {/* 6 FEATURE CARDS SECTION */}
         <section className="section" style={{ padding: "64px 0" }}>

@@ -6,18 +6,40 @@ Designed with a **hand-drawn Japanese anime sketchbook aesthetic** (cream paper 
 
 ---
 
-## 🎨 Visual Design System & Aesthetics
+## 🎨 Inkspark Visual & Interaction Style System
 
-- **Paper Canvas**: Warm cream sketchbook tone (`#FAF7F2`) with tactile texture tooth.
-- **Ink Linework**: Deep charcoal/ink lines (`#1F1D2B` and `#E5DFD5`) inspired by Japanese calligraphy and manga drafts.
-- **Accents**: Soft wisteria watercolor purple (`#6C5CE7`, `#8C7CFF`), sage green (`#00B894`), and warm vermilion (`#FF7675`).
-- **Signature Kanji Stamps**:
-  - `創造` (Creation) — Discovery & Creator Identity
-  - `夢を創る` (Crafting Dreams) — Campaign Briefs & Collaborations
-  - `アイデア` (Ideas & Synergy) — AI Gemini Matchmaking & Brief Generation
-  - `提案` (Proposal) — Direct Contact & Inquiry Messaging
-  - `分析` (Analysis) — AI Creative Assessment
-- **Components**: Screentone badges, textured cards with ink borders, responsive grids, and interactive pitch drawers.
+Creatora AI is styled using the **Inkspark Japanese Sketchbook & Manga Comic Swatch**, delivering a tactile, hand-drawn aesthetic with full color fills and 14 signature interactive effects:
+
+### 🌈 Color Palette & Exact Tokens
+- **Day Mode (Cream Sketchbook)**:
+  - Paper: `#fbf0d9` | Paper2: `#fffaf0` | Deep Ink: `#2a1d3a`
+  - Vivid Fills: Pink `#ff4f9a` | Cyan `#12c2e0` | Orange `#ff8a2b` | Yellow `#ffd23f` | Violet `#7a4dff` | Mint `#38d9a9`
+- **Night Mode (Dark Indigo Sketchbook)**:
+  - Night Paper: `#1a1544` | Night Paper2: `#2a2370` | Pale Ink: `#fff3dc`
+- **Trust Tier Exact Badges**:
+  - `Proof-backed`: Mint (`#38d9a9`) with dark ink text
+  - `Link-checked`: Cyan (`#12c2e0`) with dark ink text
+  - `Self-reported`: Yellow (`#ffd23f`) with dark ink text
+  - `Needs more proof`: Orange (`#ff8a2b`) with dark ink text
+- **Typography**: `Permanent Marker` (headings/stamps) + `Zen Maru Gothic` (body and Japanese accent text).
+- **Linework & Shadows**: `2.5px solid var(--ink)` outline, hard offset shadows (`3px 3px 0 var(--ink)`, `6px 6px 0 var(--ink)`).
+
+### ✨ 14 Signature Interactive Effects
+1. **Card Hover**: Untilt, lift, and expand hard offset shadow from 4px to 8px.
+2. **3D Flip Card**: Revealing "How it was made" technical pipeline on hover, keyboard focus, or tap.
+3. **Sketch-to-Color**: Images muted/sketch-tinted at rest, smoothly vivid and slightly zoomed on hover/focus.
+4. **Inked Buttons**: Hover jump with tilt, active press-down, and ephemeral sparkle particle bursts on click.
+5. **Sticker Chips & Filters**: Pop & wiggle animation when selected; dimmed 0-result tiles.
+6. **Underline-Draw**: Brush-drawn pink ink line on navigation links.
+7. **Day/Night Toggle**: Instant theme switcher saved in `localStorage`, toggling cream paper and dark-indigo palettes.
+8. **Before/After Draggable Slider**: Accessible range input split slider with ink grab handle.
+9. **Folder Tabs**: Overlapping file-folder tabs on creator profiles and studios.
+10. **Animated Striped Meters**: Moving candy-stripes for Heat Index and Trust scores.
+11. **Atmosphere Elements**: Max 7 floating sakura petals, infinite scrolling tool marquee, and bobbing doodles.
+12. **Scroll Reveals**: Manga panel slide-in reveals for sections.
+13. **Context Cursors**: Hand-drawn SVG cursors (pen default, pointer, magnifier, grab hand, text beam), click splash, and throttled canvas ink trail.
+14. **Comic Modals**: Thick-bordered lightbox modals with spring pop-in scaling.
+- **Bonus Left-Side Back Navigation Arrow**: Hand-drawn manga pill button (`← Back`) permanently accessible on the left side of inner pages for effortless 1-click navigation.
 
 ---
 

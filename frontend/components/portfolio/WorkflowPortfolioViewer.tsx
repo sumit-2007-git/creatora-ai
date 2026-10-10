@@ -303,16 +303,38 @@ export function WorkflowPortfolioViewer({
                 </span>
               </div>
 
+              {/* Accessible Range Input for Screen Readers & Keyboard Navigation */}
+              <input
+                type="range"
+                min="0"
+                max="100"
+                value={sliderPos}
+                onChange={(e) => setSliderPos(Number(e.target.value))}
+                aria-label="Compare starting reference image with final output"
+                style={{
+                  position: "absolute",
+                  bottom: 12,
+                  left: "50%",
+                  transform: "translateX(-50%)",
+                  width: "80%",
+                  zIndex: 25,
+                  opacity: 0,
+                  pointerEvents: isDraggingSlider ? "none" : "auto",
+                  cursor: "col-resize",
+                }}
+              />
+
               {/* Draggable Divider Handle */}
               <div
                 onMouseDown={() => setIsDraggingSlider(true)}
                 onTouchStart={() => setIsDraggingSlider(true)}
+                className="draggable-slider"
                 style={{
                   position: "absolute",
                   top: 0,
                   bottom: 0,
-                  left: `calc(${sliderPos}% - 16px)`,
-                  width: 32,
+                  left: `calc(${sliderPos}% - 18px)`,
+                  width: 36,
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
@@ -322,15 +344,16 @@ export function WorkflowPortfolioViewer({
               >
                 <div
                   style={{
-                    width: 32,
-                    height: 32,
+                    width: 36,
+                    height: 36,
                     borderRadius: "50%",
-                    background: "#FFFFFF",
+                    background: "var(--yellow)",
+                    border: "2px solid var(--ink)",
+                    boxShadow: "2px 2px 0 var(--ink)",
                     color: "var(--ink)",
                     display: "grid",
                     placeItems: "center",
-                    boxShadow: "0 4px 12px rgba(0,0,0,0.4)",
-                    fontSize: 12,
+                    fontSize: 11,
                     fontWeight: 900,
                     userSelect: "none",
                   }}

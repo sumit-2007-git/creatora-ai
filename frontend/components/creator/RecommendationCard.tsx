@@ -41,14 +41,14 @@ export function RecommendationCard({ recommendation, onContactClick }: Recommend
     <article
       className="surface surface-hover"
       style={{
-        padding: "16px 18px",
-        borderRadius: 20,
-        border: "1.5px solid var(--line)",
-        background: "#FFFFFF",
+        padding: "18px 20px",
+        borderRadius: "20px 24px 18px 22px",
+        border: "2.5px solid var(--ink)",
+        background: "var(--surface)",
+        boxShadow: "var(--shadow-comic)",
         display: "flex",
         flexDirection: "column",
-        gap: 12,
-        transition: "transform 0.2s ease, box-shadow 0.2s ease",
+        gap: 14,
       }}
     >
       {/* Top Header Row */}
@@ -57,7 +57,8 @@ export function RecommendationCard({ recommendation, onContactClick }: Recommend
           <img
             src={recommendation.avatar || "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80"}
             alt={recommendation.name}
-            style={{ width: 62, height: 62, borderRadius: 16, objectFit: "cover", border: "2px solid #FAF7F2" }}
+            className="sketch-to-color"
+            style={{ width: 62, height: 62, borderRadius: 16, objectFit: "cover", border: "2px solid var(--ink)", boxShadow: "2px 2px 0 var(--ink)" }}
           />
         </Link>
 
@@ -65,11 +66,11 @@ export function RecommendationCard({ recommendation, onContactClick }: Recommend
           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start" }}>
             <div>
               <Link href={`/creators/${recommendation.creatorId}`}>
-                <h3 style={{ margin: 0, fontSize: 16, fontWeight: 800, color: "var(--ink)" }}>
+                <h3 style={{ margin: 0, fontSize: 16, fontWeight: 900, color: "var(--ink)" }}>
                   {recommendation.name}
                 </h3>
               </Link>
-              <p style={{ margin: "2px 0 6px", fontSize: 12, color: "var(--muted)", fontWeight: 500 }}>
+              <p style={{ margin: "2px 0 6px", fontSize: 12, color: "var(--muted)", fontWeight: 600 }}>
                 {recommendation.roleTitle}
               </p>
             </div>
@@ -77,27 +78,23 @@ export function RecommendationCard({ recommendation, onContactClick }: Recommend
             {/* Score Pill & Tier */}
             <div style={{ textAlign: "right" }}>
               <div
+                className="pill yellow"
                 style={{
-                  display: "inline-block",
-                  padding: "4px 10px",
-                  borderRadius: 20,
-                  fontSize: 13,
+                  fontSize: 12,
                   fontWeight: 900,
-                  background: tierStyle.bg,
-                  color: tierStyle.text,
-                  border: `1.5px solid ${tierStyle.border}`,
+                  padding: "4px 10px",
                 }}
               >
                 {score}% Match
               </div>
-              <span style={{ display: "block", fontSize: 9.5, fontWeight: 700, color: tierStyle.text, textTransform: "uppercase", marginTop: 2 }}>
+              <span style={{ display: "block", fontSize: 9.5, fontWeight: 800, color: "var(--ink)", textTransform: "uppercase", marginTop: 3 }}>
                 {tier}
               </span>
             </div>
           </div>
 
           {/* Quick Metrics */}
-          <div style={{ display: "flex", gap: 12, fontSize: 11, color: "var(--muted)", marginTop: 2 }}>
+          <div style={{ display: "flex", gap: 12, fontSize: 11, color: "var(--muted)", marginTop: 2, fontWeight: 600 }}>
             <span>👥 {recommendation.totalFollowers} followers</span>
             <span>⚡ {recommendation.engagementRate} eng</span>
             {recommendation.rate && <span>💰 {recommendation.rate}</span>}
@@ -105,19 +102,34 @@ export function RecommendationCard({ recommendation, onContactClick }: Recommend
         </div>
       </div>
 
-      {/* "Why this creator matches" Gemini Explanation */}
+      {/* Animated Striped Match Score Bar */}
+      <div style={{ width: "100%", height: 8, background: "rgba(42, 29, 58, 0.1)", borderRadius: 999, overflow: "hidden", border: "1px solid var(--ink)" }}>
+        <div
+          className="striped-meter-fill"
+          style={{
+            width: `${score}%`,
+            height: "100%",
+            background: score >= 80 ? "var(--mint)" : score >= 65 ? "var(--cyan)" : "var(--pink)",
+            transition: "width 0.5s ease",
+          }}
+        />
+      </div>
+
+      {/* "Why this creator matches" Comic Speech Bubble */}
       <div
         style={{
           background: "var(--surface-soft)",
-          borderLeft: `3px solid ${tierStyle.text}`,
-          padding: "9px 12px",
-          borderRadius: "0 10px 10px 0",
+          border: "2px solid var(--ink)",
+          boxShadow: "2px 2px 0 var(--ink)",
+          padding: "10px 14px",
+          borderRadius: "14px 18px 14px 4px",
           fontSize: 12,
-          lineHeight: 1.45,
+          lineHeight: 1.5,
           color: "var(--ink)",
+          position: "relative",
         }}
       >
-        <span style={{ fontWeight: 800, color: tierStyle.text, display: "block", fontSize: 10, textTransform: "uppercase", letterSpacing: "0.04em", marginBottom: 2 }}>
+        <span style={{ fontWeight: 900, color: "var(--pink)", display: "block", fontSize: 10, textTransform: "uppercase", letterSpacing: "0.04em", marginBottom: 3 }}>
           ✧ Why this creator matches
         </span>
         {recommendation.matchRationale}

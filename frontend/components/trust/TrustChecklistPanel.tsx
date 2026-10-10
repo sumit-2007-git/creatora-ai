@@ -85,43 +85,48 @@ export function TrustChecklistPanel({ profile, isOwner = false, onProofVerified 
         </div>
       </div>
 
-      {/* OVERALL TRUST METER (Styled like Heat Meter) */}
+      {/* OVERALL TRUST METER (Styled like Heat / Trust Meter) */}
       <div
         style={{
-          padding: "16px 20px",
+          padding: "18px 22px",
           background: "var(--surface-soft)",
-          borderRadius: 16,
-          border: "1px solid var(--line)",
+          borderRadius: 18,
+          border: "2px solid var(--ink)",
+          boxShadow: "3px 3px 0 var(--ink)",
           marginBottom: 24,
         }}
       >
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 8 }}>
-          <span style={{ fontSize: 12, fontWeight: 800, textTransform: "uppercase", letterSpacing: "0.06em", color: "var(--muted)" }}>
-            Overall Trust Index
-          </span>
-          <span style={{ fontSize: 18, fontWeight: 900, color: score >= 80 ? "#2E7D32" : score >= 65 ? "#1976D2" : "var(--purple-primary)" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 10 }}>
+          <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+            <span className="kanji-stamp" style={{ fontSize: 9 }}>METER</span>
+            <span style={{ fontSize: 13, fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.06em", color: "var(--ink)" }}>
+              Overall Trust Index
+            </span>
+          </div>
+          <span style={{ fontSize: 20, fontWeight: 900, color: "var(--ink)" }}>
             {score}%
           </span>
         </div>
 
-        {/* Gradient Progress Bar */}
-        <div style={{ height: 10, background: "rgba(0,0,0,0.06)", borderRadius: 10, overflow: "hidden" }}>
+        {/* Animated Striped Progress Bar */}
+        <div style={{ height: 14, background: "rgba(42, 29, 58, 0.12)", borderRadius: 999, overflow: "hidden", border: "1.5px solid var(--ink)" }}>
           <div
+            className="striped-meter-fill"
             style={{
               height: "100%",
               width: `${score}%`,
               background:
                 score >= 80
-                  ? "linear-gradient(90deg, #2E7D32, #00B894)"
-                  : score >= 65
-                  ? "linear-gradient(90deg, #1976D2, #00CEC9)"
-                  : "linear-gradient(90deg, #6C5CE7, #A29BFE)",
-              borderRadius: 10,
-              transition: "width 0.4s ease",
+                  ? "var(--mint)"
+                  : score >= 60
+                  ? "var(--cyan)"
+                  : "var(--yellow)",
+              borderRadius: 999,
+              transition: "width 0.6s cubic-bezier(0.16, 1, 0.3, 1)",
             }}
           />
         </div>
-        <div style={{ display: "flex", justifyContent: "space-between", fontSize: 10, color: "var(--muted)", marginTop: 6 }}>
+        <div style={{ display: "flex", justifyContent: "space-between", fontSize: 10.5, color: "var(--muted)", fontWeight: 700, marginTop: 8 }}>
           <span>Self-Reported (0-60%)</span>
           <span>Link-Checked (60-80%)</span>
           <span>Proof-Backed (80-100%)</span>

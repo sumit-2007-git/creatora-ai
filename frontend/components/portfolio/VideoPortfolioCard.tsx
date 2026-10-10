@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, KeyboardEvent } from "react";
 import { PortfolioItem } from "@/types/portfolio";
 
 interface VideoPortfolioCardProps {
@@ -10,6 +10,7 @@ interface VideoPortfolioCardProps {
 
 export function VideoPortfolioCard({ item, onOpenPreview }: VideoPortfolioCardProps) {
   const [isHovered, setIsHovered] = useState(false);
+  const [isFlipped, setIsFlipped] = useState(false);
   const [videoError, setVideoError] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
 
@@ -17,9 +18,7 @@ export function VideoPortfolioCard({ item, onOpenPreview }: VideoPortfolioCardPr
     setIsHovered(true);
     if (videoRef.current && !videoError) {
       videoRef.current.currentTime = 0;
-      videoRef.current.play().catch(() => {
-        // Autoplay restrictions handle gracefully
-      });
+      videoRef.current.play().catch(() => {});
     }
   };
 
@@ -31,208 +30,332 @@ export function VideoPortfolioCard({ item, onOpenPreview }: VideoPortfolioCardPr
     }
   };
 
+  const handleKeyDown = (e: KeyboardEvent<HTMLElement>) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      onOpenPreview(item);
+    }
+  };
+
   const hasVideo = Boolean(item.videoUrl && !videoError);
+  const workflow = item.workflow;
 
   return (
     <article
-      onClick={() => onOpenPreview(item)}
+      tabIndex={0}
+      onKeyDown={handleKeyDown}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      className="surface surface-hover"
+      className={`flip-card surface-hover ${isFlipped ? "is-flipped" : ""}`}
       style={{
-        overflow: "hidden",
-        borderRadius: 20,
+        height: 380,
+        borderRadius: "20px 24px 18px 22px",
         cursor: "pointer",
-        border: "1.5px solid var(--line)",
-        transition: "transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease",
-        display: "flex",
-        flexDirection: "column",
+        position: "relative",
       }}
     >
-      {/* Media Window */}
-      <div
-        style={{
-          position: "relative",
-          height: 210,
-          background: "#161026",
-          overflow: "hidden",
-        }}
-      >
-        {/* Real Video Player on Hover / Preview */}
-        {hasVideo ? (
-          <>
-            <video
-              ref={videoRef}
-              src={item.videoUrl}
-              poster={item.thumbnailUrl || item.mediaUrl}
-              muted
-              loop
-              playsInline
-              preload="metadata"
-              onError={() => setVideoError(true)}
-              style={{
-                width: "100%",
-                height: "100%",
-                objectFit: "cover",
-                display: "block",
-                transition: "opacity 0.25s ease",
-                opacity: isHovered ? 1 : 0.88,
-              }}
-            />
-            {/* Live Playing Tag */}
-            {isHovered && (
-              <span
-                style={{
-                  position: "absolute",
-                  bottom: 10,
-                  right: 10,
-                  background: "rgba(124, 92, 252, 0.9)",
-                  color: "#FFFFFF",
-                  fontSize: 10,
-                  fontWeight: 800,
-                  padding: "3px 8px",
-                  borderRadius: 6,
-                  letterSpacing: "0.06em",
-                  textTransform: "uppercase",
-                  backdropFilter: "blur(4px)",
-                }}
-              >
-                ● Playing Preview
-              </span>
-            )}
-          </>
-        ) : (
-          <img
-            src={item.thumbnailUrl || item.mediaUrl}
-            alt={item.title}
-            style={{
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-              display: "block",
-            }}
-          />
-        )}
-
-        {/* Content Type Badge */}
-        <span
-          className="pill"
+      <div className="flip-card-inner">
+        {/* ================= FRONT FACE ================= */}
+        <div
+          className="flip-card-front surface"
           style={{
-            position: "absolute",
-            top: 10,
-            left: 10,
-            background: "rgba(255, 255, 255, 0.92)",
-            fontSize: 10.5,
-            fontWeight: 800,
-            boxShadow: "0 2px 6px rgba(0,0,0,0.12)",
+            display: "flex",
+            flexDirection: "column",
+            border: "2.5px solid var(--ink)",
+            borderRadius: "20px 24px 18px 22px",
+            background: "var(--surface)",
+            boxShadow: "var(--shadow-comic)",
+            overflow: "hidden",
           }}
         >
-          {item.genre ? `${item.genre} · ` : ""}{item.contentType || "AI Video"}
-        </span>
-
-        {/* Central Play Button Overlay */}
-        {!isHovered && (
+          {/* Media Window */}
           <div
+            onClick={() => onOpenPreview(item)}
             style={{
-              position: "absolute",
-              inset: 0,
-              display: "grid",
-              placeItems: "center",
-              background: "rgba(0, 0, 0, 0.22)",
-              transition: "opacity 0.2s ease",
-            }}
-          >
-            <div
-              style={{
-                width: 48,
-                height: 48,
-                background: "rgba(255, 255, 255, 0.92)",
-                borderRadius: "50%",
-                display: "grid",
-                placeItems: "center",
-                boxShadow: "0 6px 20px rgba(0, 0, 0, 0.3)",
-                color: "var(--purple-primary)",
-                fontSize: 18,
-                paddingLeft: 3,
-                transition: "transform 0.2s ease",
-              }}
-            >
-              ▶
-            </div>
-          </div>
-        )}
-      </div>
-
-      {/* Card Info */}
-      <div style={{ padding: "18px 20px", display: "flex", flexDirection: "column", flex: 1, justifyContent: "space-between" }}>
-        <div>
-          <h3
-            style={{
-              margin: "0 0 6px",
-              fontSize: 16,
-              fontWeight: 800,
-              color: "var(--ink)",
-              lineHeight: 1.3,
-            }}
-          >
-            {item.title}
-          </h3>
-          <p
-            style={{
-              margin: "0 0 14px",
-              fontSize: 12.5,
-              color: "var(--muted)",
-              lineHeight: 1.5,
-              display: "-webkit-box",
-              WebkitLineClamp: 2,
-              WebkitBoxOrient: "vertical",
+              position: "relative",
+              height: 200,
+              background: "#161026",
               overflow: "hidden",
             }}
           >
-            {item.description}
-          </p>
-        </div>
+            {hasVideo ? (
+              <video
+                ref={videoRef}
+                src={item.videoUrl}
+                poster={item.thumbnailUrl || item.mediaUrl}
+                muted
+                loop
+                playsInline
+                preload="metadata"
+                onError={() => setVideoError(true)}
+                className="sketch-to-color"
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                  display: "block",
+                }}
+              />
+            ) : (
+              <img
+                src={item.thumbnailUrl || item.mediaUrl}
+                alt={item.title}
+                className="sketch-to-color"
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  objectFit: "cover",
+                  display: "block",
+                }}
+              />
+            )}
 
-        <div>
-          {/* Tool tags */}
-          {item.toolsUsed && item.toolsUsed.length > 0 && (
-            <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 10 }}>
-              {item.toolsUsed.slice(0, 2).map((tool) => (
-                <span
-                  key={tool}
-                  className="pill"
+            {/* Content Type Badge */}
+            <span
+              className="pill yellow"
+              style={{
+                position: "absolute",
+                top: 10,
+                left: 10,
+                fontSize: 10.5,
+                fontWeight: 900,
+                padding: "3px 8px",
+              }}
+            >
+              {item.genre ? `${item.genre} · ` : ""}{item.contentType || "AI Video"}
+            </span>
+
+            {/* Tap to Flip button for mobile / keyboard */}
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsFlipped(!isFlipped);
+              }}
+              className="pill"
+              style={{
+                position: "absolute",
+                top: 10,
+                right: 10,
+                fontSize: 10,
+                padding: "3px 7px",
+                background: "var(--paper2)",
+                color: "var(--ink)",
+                cursor: "pointer",
+                zIndex: 5,
+              }}
+              title="Flip to see how it was made"
+              aria-label="Flip card for workflow details"
+            >
+              🔄 How it was made
+            </button>
+
+            {/* Play Button Overlay */}
+            {!isHovered && (
+              <div
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  display: "grid",
+                  placeItems: "center",
+                  background: "rgba(0, 0, 0, 0.2)",
+                  pointerEvents: "none",
+                }}
+              >
+                <div
                   style={{
-                    fontSize: 9.5,
-                    padding: "2px 6px",
-                    background: "rgba(124, 92, 252, 0.06)",
-                    color: "var(--purple-primary)",
-                    border: "1px solid var(--purple-line)",
+                    width: 44,
+                    height: 44,
+                    background: "var(--paper2)",
+                    border: "2px solid var(--ink)",
+                    boxShadow: "2px 2px 0 var(--ink)",
+                    borderRadius: "50%",
+                    display: "grid",
+                    placeItems: "center",
+                    color: "var(--pink)",
+                    fontSize: 16,
+                    paddingLeft: 3,
                   }}
                 >
-                  ⚡ {tool}
-                </span>
-              ))}
-            </div>
-          )}
+                  ▶
+                </div>
+              </div>
+            )}
+          </div>
 
-          {/* Social Stats */}
+          {/* Card Info */}
           <div
+            onClick={() => onOpenPreview(item)}
             style={{
+              padding: "16px 18px",
               display: "flex",
+              flexDirection: "column",
+              flex: 1,
               justifyContent: "space-between",
-              alignItems: "center",
-              fontSize: 11,
-              color: "var(--muted)",
-              borderTop: "1px solid var(--line)",
-              paddingTop: 10,
             }}
           >
-            <span>👁 {item.views}</span>
-            <span>❤️ {item.likes}</span>
-            <span style={{ color: "var(--purple-primary)", fontWeight: 700 }}>
-              ▶ Watch Film →
-            </span>
+            <div>
+              <h3
+                style={{
+                  margin: "0 0 6px",
+                  fontSize: 16,
+                  fontWeight: 900,
+                  color: "var(--ink)",
+                  lineHeight: 1.3,
+                }}
+              >
+                {item.title}
+              </h3>
+              <p
+                style={{
+                  margin: "0 0 10px",
+                  fontSize: 12.5,
+                  color: "var(--muted)",
+                  lineHeight: 1.45,
+                  display: "-webkit-box",
+                  WebkitLineClamp: 2,
+                  WebkitBoxOrient: "vertical",
+                  overflow: "hidden",
+                }}
+              >
+                {item.description}
+              </p>
+            </div>
+
+            <div>
+              {/* Tool tags */}
+              {item.toolsUsed && item.toolsUsed.length > 0 && (
+                <div style={{ display: "flex", gap: 5, flexWrap: "wrap", marginBottom: 8 }}>
+                  {item.toolsUsed.slice(0, 2).map((tool) => (
+                    <span
+                      key={tool}
+                      className="pill purple"
+                      style={{ fontSize: 9.5, padding: "2px 6px" }}
+                    >
+                      ⚡ {tool}
+                    </span>
+                  ))}
+                </div>
+              )}
+
+              {/* Social Stats & Action */}
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  fontSize: 11,
+                  color: "var(--muted)",
+                  borderTop: "1.5px solid var(--ink)",
+                  paddingTop: 8,
+                }}
+              >
+                <span>👁 {item.views}</span>
+                <span>❤️ {item.likes}</span>
+                <span className="underline-draw" style={{ color: "var(--pink)", fontWeight: 900 }}>
+                  Inspect Pipeline →
+                </span>
+              </div>
+            </div>
           </div>
+        </div>
+
+        {/* ================= BACK FACE: HOW IT WAS MADE ================= */}
+        <div
+          className="flip-card-back"
+          style={{
+            border: "2.5px solid var(--ink)",
+            borderRadius: "20px 24px 18px 22px",
+            background: "var(--paper2)",
+            boxShadow: "var(--shadow-comic)",
+            padding: 20,
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+          }}
+        >
+          <div>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                <span className="kanji-stamp" style={{ fontSize: 9 }}>PIPELINE</span>
+                <strong style={{ fontSize: 14, color: "var(--ink)", fontWeight: 900 }}>
+                  How It Was Made
+                </strong>
+              </div>
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIsFlipped(false);
+                }}
+                className="pill"
+                style={{ fontSize: 10, padding: "2px 6px", cursor: "pointer" }}
+                aria-label="Flip back to front face"
+              >
+                ✕ Front
+              </button>
+            </div>
+
+            {/* Total Time & Step Count */}
+            <div style={{ display: "flex", gap: 8, marginBottom: 14 }}>
+              <span className="pill yellow" style={{ fontSize: 10 }}>
+                ⏱️ {workflow?.totalHours || 6}h Total
+              </span>
+              <span className="pill cyan" style={{ fontSize: 10 }}>
+                📑 {workflow?.steps?.length || item.toolsUsed?.length || 3} Steps
+              </span>
+            </div>
+
+            {/* Tools Disclosed */}
+            <strong style={{ fontSize: 11, textTransform: "uppercase", color: "var(--muted)", display: "block", marginBottom: 6 }}>
+              Tools in Stack:
+            </strong>
+            <div style={{ display: "flex", flexWrap: "wrap", gap: 5, marginBottom: 14 }}>
+              {(workflow?.tools || item.toolsUsed || []).map((t: any) => {
+                const name = typeof t === "string" ? t : t.name;
+                return (
+                  <span
+                    key={name}
+                    className="pill"
+                    style={{ fontSize: 10, padding: "2px 6px" }}
+                  >
+                    🤖 {name}
+                  </span>
+                );
+              })}
+            </div>
+
+            {/* Prompt Transparency */}
+            <div
+              style={{
+                padding: "8px 10px",
+                borderRadius: 8,
+                background: "var(--surface-soft)",
+                border: "1px dashed var(--ink)",
+                fontSize: 11,
+                color: "var(--ink)",
+                lineHeight: 1.4,
+              }}
+            >
+              <span style={{ fontWeight: 800, display: "block", marginBottom: 2 }}>
+                Prompt Visibility:
+              </span>
+              {workflow?.promptVisibility === "public" ? "🌐 Public generation prompt available in full viewer." : "🔒 Private prompt (creator commercial IP)."}
+            </div>
+          </div>
+
+          {/* Full Viewer Trigger Button */}
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              onOpenPreview(item);
+            }}
+            className="button small"
+            style={{ width: "100%", justifyContent: "center" }}
+          >
+            Launch Full-Screen Viewer 🎬
+          </button>
         </div>
       </div>
     </article>
