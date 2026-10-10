@@ -45,34 +45,69 @@ export default function RegisterPage() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          borderRight: "1.5px solid var(--line)",
+          borderRight: "2.5px solid var(--ink)",
           background: "linear-gradient(145deg, #FAF7F2, #F5EFEB)",
           overflow: "hidden",
         }}
       >
-        <CreatoraLogo size={36} />
+        <Link href="/" style={{ textDecoration: "none" }}>
+          <CreatoraLogo size={36} />
+        </Link>
 
         <div style={{ maxWidth: 440 }}>
           <div style={{ display: "inline-flex", alignItems: "center", gap: 8, marginBottom: 14 }}>
             <span className="kanji-stamp">JOIN</span>
             <span className="pill purple">Start Creating</span>
           </div>
-          <h2 style={{ fontSize: 38, fontWeight: 900, color: "var(--ink)", letterSpacing: "-0.04em", margin: "0 0 16px" }}>
+          <h2
+            style={{
+              fontFamily: "var(--font-heading)",
+              fontSize: 38,
+              fontWeight: 900,
+              color: "var(--ink)",
+              letterSpacing: "-0.04em",
+              margin: "0 0 16px",
+            }}
+          >
             Join the Next Era of Visual Art.
           </h2>
-          <p style={{ fontSize: 15, color: "var(--muted)", lineHeight: 1.7, margin: 0 }}>
+          <p style={{ fontSize: 15, color: "var(--pencil)", lineHeight: 1.7, margin: 0 }}>
             Whether you generate cinematic universes or commission cutting-edge AI ads, Creatora AI brings you together.
           </p>
         </div>
 
-        <div style={{ fontSize: 12, color: "var(--muted)" }}>
+        <div style={{ fontSize: 12, color: "var(--muted)", fontWeight: 700 }}>
           ✨ Creatora AI Creator Marketplace
         </div>
       </aside>
 
       <div style={{ display: "grid", placeItems: "center", padding: "40px 24px" }}>
-        <div className="surface" style={{ width: "min(440px, 100%)", padding: 36, borderRadius: 24, border: "1.5px solid var(--line)" }}>
-          <h1 style={{ margin: "0 0 6px", fontSize: 26, fontWeight: 900, color: "var(--ink)" }}>Create an Account</h1>
+        <div
+          className="surface manga-panel"
+          style={{
+            width: "min(440px, 100%)",
+            padding: 36,
+            borderRadius: 24,
+            border: "2.5px solid var(--ink)",
+            boxShadow: "6px 6px 0 var(--ink)",
+          }}
+        >
+          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 6 }}>
+            <h1
+              style={{
+                fontFamily: "var(--font-heading)",
+                margin: 0,
+                fontSize: 26,
+                fontWeight: 900,
+                color: "var(--ink)",
+              }}
+            >
+              Create an Account
+            </h1>
+            <Link href="/" className="button small ghost" style={{ fontSize: 11, padding: "4px 10px" }}>
+              ← Home
+            </Link>
+          </div>
           <p style={{ margin: "0 0 22px", fontSize: 13, color: "var(--muted)" }}>
             Select your account type and get started in seconds.
           </p>
@@ -83,7 +118,7 @@ export default function RegisterPage() {
               type="button"
               onClick={() => setRole("CREATOR")}
               className={`pill ${role === "CREATOR" ? "purple" : ""}`}
-              style={{ justifyContent: "center", padding: "8px 0", cursor: "pointer", fontSize: 12 }}
+              style={{ justifyContent: "center", padding: "8px 0", cursor: "pointer", fontSize: 12, fontWeight: 800 }}
             >
               🎨 I am a Creator
             </button>
@@ -91,21 +126,32 @@ export default function RegisterPage() {
               type="button"
               onClick={() => setRole("BRAND")}
               className={`pill ${role === "BRAND" ? "purple" : ""}`}
-              style={{ justifyContent: "center", padding: "8px 0", cursor: "pointer", fontSize: 12 }}
+              style={{ justifyContent: "center", padding: "8px 0", cursor: "pointer", fontSize: 12, fontWeight: 800 }}
             >
               🏢 I am a Brand
             </button>
           </div>
 
           {errorMsg && (
-            <div style={{ padding: "10px 14px", background: "#FFEBEE", color: "#C62828", borderRadius: 10, fontSize: 12, marginBottom: 14 }}>
-              {errorMsg}
+            <div
+              style={{
+                padding: "10px 14px",
+                background: "#FFEBEE",
+                color: "#C62828",
+                borderRadius: 10,
+                fontSize: 12,
+                marginBottom: 14,
+                border: "1.5px solid #EF9A9A",
+                fontWeight: 750,
+              }}
+            >
+              ⚠️ {errorMsg}
             </div>
           )}
 
           <form onSubmit={handleRegister} style={{ display: "flex", flexDirection: "column", gap: 14 }}>
             <div>
-              <label style={{ display: "block", fontSize: 12, fontWeight: 700, marginBottom: 5 }}>
+              <label style={{ display: "block", fontSize: 12, fontWeight: 800, marginBottom: 5, color: "var(--ink)" }}>
                 {role === "CREATOR" ? "Creator Full Name / Handle" : "Company / Brand Name"}
               </label>
               <input
@@ -115,11 +161,14 @@ export default function RegisterPage() {
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 required
+                style={{ width: "100%", border: "2px solid var(--ink)", borderRadius: 10, padding: "10px 14px", fontSize: 14 }}
               />
             </div>
 
             <div>
-              <label style={{ display: "block", fontSize: 12, fontWeight: 700, marginBottom: 5 }}>Email address</label>
+              <label style={{ display: "block", fontSize: 12, fontWeight: 800, marginBottom: 5, color: "var(--ink)" }}>
+                Email address
+              </label>
               <input
                 type="email"
                 className="field"
@@ -127,11 +176,14 @@ export default function RegisterPage() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
+                style={{ width: "100%", border: "2px solid var(--ink)", borderRadius: 10, padding: "10px 14px", fontSize: 14 }}
               />
             </div>
 
             <div>
-              <label style={{ display: "block", fontSize: 12, fontWeight: 700, marginBottom: 5 }}>Password</label>
+              <label style={{ display: "block", fontSize: 12, fontWeight: 800, marginBottom: 5, color: "var(--ink)" }}>
+                Password
+              </label>
               <input
                 type="password"
                 className="field"
@@ -139,17 +191,18 @@ export default function RegisterPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
+                style={{ width: "100%", border: "2px solid var(--ink)", borderRadius: 10, padding: "10px 14px", fontSize: 14 }}
               />
             </div>
 
-            <button type="submit" disabled={loading} className="button" style={{ width: "100%", marginTop: 6 }}>
+            <button type="submit" disabled={loading} className="button" style={{ width: "100%", marginTop: 6, fontWeight: 800 }}>
               {loading ? "Creating account..." : `Sign up as ${role === "CREATOR" ? "Creator" : "Brand"} →`}
             </button>
           </form>
 
-          <div style={{ textAlign: "center", marginTop: 20, fontSize: 12, color: "var(--muted)" }}>
+          <div style={{ textAlign: "center", marginTop: 20, fontSize: 13, color: "var(--pencil)" }}>
             Already have an account?{" "}
-            <Link href="/login" style={{ color: "var(--purple-primary)", fontWeight: 700 }}>
+            <Link href="/login" style={{ color: "var(--purple-primary)", fontWeight: 800, textDecoration: "underline" }}>
               Sign in
             </Link>
           </div>

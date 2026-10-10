@@ -39,11 +39,27 @@ export function PublicLayout({
             style={{
               display: "flex",
               alignItems: "center",
-              justifyContent: "center",
+              justifyContent: "space-between",
               width: "100%",
             }}
           >
             <CreatoraLogo size={36} showSubtitle={false} />
+            <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+              <a
+                href="/login"
+                className="button small ghost"
+                style={{ fontSize: 12.5, fontWeight: 800, padding: "6px 14px" }}
+              >
+                Log in
+              </a>
+              <a
+                href="/register"
+                className="button small"
+                style={{ fontSize: 12.5, fontWeight: 800, padding: "6px 14px" }}
+              >
+                Sign up
+              </a>
+            </div>
           </div>
         </header>
         {children}

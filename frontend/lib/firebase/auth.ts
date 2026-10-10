@@ -4,6 +4,7 @@ import {
   signInWithPopup,
   GoogleAuthProvider,
   signOut,
+  sendPasswordResetEmail,
   User as FirebaseUser,
   onAuthStateChanged
 } from "firebase/auth";
@@ -161,4 +162,15 @@ export async function getAuthToken(): Promise<string> {
     return await auth.currentUser.getIdToken();
   }
   return "";
+}
+
+export async function resetPassword(email: string): Promise<void> {
+  if (!email || !email.includes("@")) {
+    throw new Error("Please provide a valid email address.");
+  }
+  if (!auth || !isFirebaseConfigured) {
+    // Simulated demo mode
+    return;
+  }
+  await sendPasswordResetEmail(auth, email);
 }
