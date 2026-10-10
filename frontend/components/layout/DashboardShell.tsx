@@ -2,71 +2,157 @@
 
 import type { ReactNode } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Sidebar } from "@/components/layout/Sidebar";
-import { getStoredUser, AppUser, logOut, loginDemoCreator, loginDemoBrand } from "@/lib/firebase/auth";
+import { getStoredUser, AppUser, logOut } from "@/lib/firebase/auth";
+import { CreatoraLogo } from "@/components/ui/CreatoraLogo";
 
 export function DashboardShell({ children }: { children: ReactNode }) {
+  const pathname = usePathname();
   const [user, setUser] = useState<AppUser | null>(null);
 
   useEffect(() => {
     setUser(getStoredUser());
   }, []);
 
-  const handleSwitchToCreator = async () => {
-    await loginDemoCreator();
-    window.location.href = "/dashboard/creator";
-  };
+  const isBrand = user?.role === "BRAND" || pathname.includes("/brand");
 
-  const handleSwitchToBrand = async () => {
-    await loginDemoBrand();
-    window.location.href = "/dashboard/brand";
+  const creatorNavItems = [
+    { href: "/dashboard/creator", label: "Dashboard" },
+    { href: `/creators/${user?.creatorId || "creator-001"}`, label: "My Profile" },
+    { href: "/portfolio", label: "Portfolio" },
+    { href: "/briefs", label: "Browse Briefs" },
+    { href: "/creator/inbox", label: "Inbox" },
+  ];
+
+  const brandNavItems = [
+    { href: "/dashboard/brand", label: "Dashboard" },
+    { href: "/discover", label: "Discovery" },
+    { href: "/brand/swipe", label: "Swipe" },
+    { href: "/briefs", label: "Briefs & Dream Team" },
+    { href: "/brand/matches", label: "Matches" },
+  ];
+
+  const navItems = isBrand ? brandNavItems : creatorNavItems;
+
+  const handleLogout = async () => {
+    await logOut();
+    window.location.href = "/";
   };
 
   return (
-    <div className="workspace">
-      <Sidebar />
-      <div className="workspace-main" style={{ display: "flex", flexDirection: "column", minWidth: 0 }}>
-        {/* Top bar */}
-        <header
+    <div className="site-shell" style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
+      {/* DASHBOARD HEADER - Only app logo, role navigation items, and one Logout button */}
+      <header
+        className="public-nav"
+        style={{
+          borderBottom: "2.5px solid var(--ink)",
+          background: "var(--surface)",
+          boxShadow: "0 4px 0 var(--ink)",
+          position: "sticky",
+          top: 0,
+          zIndex: 50,
+        }}
+      >
+        <div
+          className="container"
           style={{
-            height: 64,
             display: "flex",
-            justifyContent: "space-between",
             alignItems: "center",
-            padding: "0 34px",
-            borderBottom: "1.5px solid var(--line)",
-            background: "rgba(250, 247, 242, 0.9)",
-            backdropFilter: "blur(10px)",
+            justifyContent: "space-between",
+            gap: 16,
+            height: 64,
           }}
         >
-          <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
-            <span className="kanji-stamp" style={{ fontSize: 11, padding: "2px 6px" }}>CREATORA</span>
-            <span style={{ fontSize: 12.5, color: "var(--muted)", fontWeight: 600 }}>
-              Creatora AI Workspace · <strong style={{ color: "var(--ink)" }}>{user?.role === "BRAND" ? "Brand Campaign Center" : "Creator Studio"}</strong>
+          {/* App Logo */}
+          <div style={{ display: "flex", alignItems: "center", gap: 10, flexShrink: 0 }}>
+            <CreatoraLogo size={32} showSubtitle={false} />
+            <span
+              className="kanji-stamp"
+              style={{
+                fontSize: 10,
+                padding: "2px 6px",
+                background: isBrand ? "var(--cyan)" : "var(--pink)",
+                color: isBrand ? "var(--ink)" : "#FFFFFF",
+              }}
+            >
+              {isBrand ? "BRAND" : "CREATOR"}
             </span>
           </div>
 
-          <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+          {/* Role Navigation Items */}
+          <nav
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 8,
+              overflowX: "auto",
+              padding: "4px 0",
+              scrollbarWidth: "none",
+            }}
+            aria-label="Dashboard role navigation"
+          >
+            {navItems.map((item) => {
+              const isActive = pathname === item.href;
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={`button small ${isActive ? "" : "ghost"}`}
+                  style={{
+                    fontSize: 12.5,
+                    padding: "6px 14px",
+                    fontWeight: 800,
+                    whiteSpace: "nowrap",
+                    background: isActive ? "var(--ink)" : "transparent",
+                    color: isActive ? "#FFFFFF" : "var(--ink)",
+                    borderColor: "var(--ink)",
+                  }}
+                >
+                  {item.label}
+                </Link>
+              );
+            })}
+          </nav>
+
+          {/* One Logout Button */}
+          <div style={{ flexShrink: 0 }}>
             <button
-              onClick={user?.role === "BRAND" ? handleSwitchToCreator : handleSwitchToBrand}
-              className="pill purple"
-              style={{ cursor: "pointer", fontSize: 11 }}
+              onClick={handleLogout}
+              className="button small secondary"
+              style={{
+                fontSize: 12,
+                padding: "6px 14px",
+                fontWeight: 800,
+                background: "var(--yellow)",
+                color: "var(--ink)",
+              }}
+              title="Sign out and return to home page"
             >
-              🔄 Switch to {user?.role === "BRAND" ? "Creator (Aarav)" : "Brand (Solace)"}
+              Logout ➔
             </button>
-
-            <Link href="/" className="button small ghost" style={{ fontSize: 12 }}>
-              Home
-            </Link>
           </div>
-        </header>
-
-        {/* Workspace Page Content */}
-        <div style={{ flex: 1, padding: "28px 34px 60px" }}>
-          {children}
         </div>
-      </div>
+      </header>
+
+      {/* Main Workspace Content */}
+      <main style={{ flex: 1, padding: "28px 0 60px" }}>
+        <div className="container">{children}</div>
+      </main>
+
+      {/* Minimal Footer Line */}
+      <footer
+        style={{
+          borderTop: "2px solid var(--ink)",
+          background: "var(--surface)",
+          padding: "18px 0",
+          textAlign: "center",
+        }}
+      >
+        <div className="container" style={{ fontSize: 12.5, color: "var(--pencil)", fontWeight: 700 }}>
+          Creatora AI Marketplace · 2026
+        </div>
+      </footer>
     </div>
   );
 }

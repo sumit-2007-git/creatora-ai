@@ -4,6 +4,7 @@ import Link from "next/link";
 import { PublicLayout } from "@/components/layout/PublicLayout";
 import { loginDemoBrand, loginDemoCreator } from "@/lib/firebase/auth";
 import { useRouter } from "next/navigation";
+import { DEMO_EVALUATION_STEPS } from "@/lib/demo-data";
 
 export default function DemoScriptPage() {
   const router = useRouter();
@@ -47,208 +48,44 @@ export default function DemoScriptPage() {
           </div>
         </header>
 
-        {/* 6 Ordered Evaluation Scenarios */}
+        {/* 6 Ordered Evaluation Scenarios from shared single source */}
         <section style={{ display: "flex", flexDirection: "column", gap: 24 }}>
-          {/* SCENARIO 1 */}
-          <div
-            className="surface"
-            style={{
-              padding: 28,
-              borderRadius: 20,
-              border: "1.5px solid var(--line-strong)",
-              background: "#FFFFFF",
-            }}
-          >
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12, flexWrap: "wrap", gap: 10 }}>
-              <div>
-                <span style={{ fontSize: 11, fontWeight: 800, color: "var(--purple-primary)", textTransform: "uppercase" }}>Scenario 01</span>
-                <h2 style={{ margin: "4px 0", fontSize: 20, fontWeight: 800, color: "var(--ink)" }}>
-                  Conversational AI Search & Live Facets
-                </h2>
-              </div>
-              <span className="pill purple">FastAPI + Gemini Pydantic JSON</span>
-            </div>
-
-            <p style={{ fontSize: 14, color: "var(--pencil)", lineHeight: 1.6, margin: "0 0 16px" }}>
-              Brands rarely know exact filter checkboxes. Natural queries like <em>"ad for sneakers"</em> or <em>"cinematic cyberpunk trailer"</em> are deconstructed by Gemini into structured constraints with transparent rationale, live facet counts, and deterministic empty-state relaxations.
-            </p>
-
-            <div style={{ padding: "14px 18px", background: "var(--surface-soft)", borderRadius: 12, marginBottom: 16, fontSize: 13 }}>
-              <strong>What to test:</strong> Try typing queries in the prominent search bar, toggle the "Proof-Backed Only" checkbox, or trigger 0 results to observe deterministic relaxation chips.
-            </div>
-
-            <Link href="/discover" className="button small">
-              Launch Scenario 1: Search & Discover ➔
-            </Link>
-          </div>
-
-          {/* SCENARIO 2 */}
-          <div
-            className="surface"
-            style={{
-              padding: 28,
-              borderRadius: 20,
-              border: "1.5px solid var(--line-strong)",
-              background: "#FFFFFF",
-            }}
-          >
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12, flexWrap: "wrap", gap: 10 }}>
-              <div>
-                <span style={{ fontSize: 11, fontWeight: 800, color: "var(--purple-primary)", textTransform: "uppercase" }}>Scenario 02</span>
-                <h2 style={{ margin: "4px 0", fontSize: 20, fontWeight: 800, color: "var(--ink)" }}>
-                  Tinder-Style Swipe Deck & 5% Trust Factor
-                </h2>
-              </div>
-              <span className="pill purple">Transparent Match Scoring</span>
-            </div>
-
-            <p style={{ fontSize: 14, color: "var(--pencil)", lineHeight: 1.6, margin: "0 0 16px" }}>
-              Browse candidate creators tailored to your brand brief. Unlike black-box algorithms, each card shows the full transparent weighted breakdown: Genre (30%), Tools (25%), Content Type (20%), Audience (10%), Budget (10%), and Trust Tier (5%).
-            </p>
-
-            <div style={{ padding: "14px 18px", background: "var(--surface-soft)", borderRadius: 12, marginBottom: 16, fontSize: 13 }}>
-              <strong>What to test:</strong> Use keyboard arrows (<kbd>←</kbd> Pass, <kbd>→</kbd> Like) or buttons to swipe candidates. Notice the 5% Trust Factor breakdown row.
-            </div>
-
-            <Link href="/brand/swipe" className="button small">
-              Launch Scenario 2: Swipe & Match Deck ➔
-            </Link>
-          </div>
-
-          {/* SCENARIO 3 */}
-          <div
-            className="surface"
-            style={{
-              padding: 28,
-              borderRadius: 20,
-              border: "1.5px solid var(--line-strong)",
-              background: "#FFFFFF",
-            }}
-          >
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12, flexWrap: "wrap", gap: 10 }}>
-              <div>
-                <span style={{ fontSize: 11, fontWeight: 800, color: "var(--purple-primary)", textTransform: "uppercase" }}>Scenario 03</span>
-                <h2 style={{ margin: "4px 0", fontSize: 20, fontWeight: 800, color: "var(--ink)" }}>
-                  Workflow-First AI Portfolios with Draggable Split Slider
-                </h2>
-              </div>
-              <span className="pill purple">Reproducible AI Workflows</span>
-            </div>
-
-            <p style={{ fontSize: 14, color: "var(--pencil)", lineHeight: 1.6, margin: "0 0 16px" }}>
-              AI portfolios must show <em>how</em> pieces were crafted. Every piece features tools used, step durations, public/private prompt controls, and an interactive draggable comparison split slider between the raw input reference and final output render.
-            </p>
-
-            <div style={{ padding: "14px 18px", background: "var(--surface-soft)", borderRadius: 12, marginBottom: 16, fontSize: 13 }}>
-              <strong>What to test:</strong> Open the creator profile, click any piece in the Portfolio or "Tools & Workflows" tab, and drag the center slider divider left/right. Press <kbd>Esc</kbd> to exit.
-            </div>
-
-            <Link href="/creators/creator-001" className="button small">
-              Launch Scenario 3: Inspect Workflow & Slider ➔
-            </Link>
-          </div>
-
-          {/* SCENARIO 4 */}
-          <div
-            className="surface"
-            style={{
-              padding: 28,
-              borderRadius: 20,
-              border: "1.5px solid var(--line-strong)",
-              background: "#FFFFFF",
-            }}
-          >
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12, flexWrap: "wrap", gap: 10 }}>
-              <div>
-                <span style={{ fontSize: 11, fontWeight: 800, color: "var(--purple-primary)", textTransform: "uppercase" }}>Scenario 04</span>
-                <h2 style={{ margin: "4px 0", fontSize: 20, fontWeight: 800, color: "var(--ink)" }}>
-                  Gemini 1.5 Vision Proof Verifier & Trust Tiers
-                </h2>
-              </div>
-              <span className="pill green">Gemini Vision OCR + SSRF Guard</span>
-            </div>
-
-            <p style={{ fontSize: 14, color: "var(--pencil)", lineHeight: 1.6, margin: "0 0 16px" }}>
-              Creatora separates truth from hype with 4 strict Trust Tiers: <code>self-reported</code>, <code>link-checked</code>, <code>proof-backed</code>, and <code>needs-proof</code>. Creators submit screenshot proof of ComfyUI node graphs, Blender setups, or DaVinci timelines, which Gemini 1.5 Vision analyzes for authentic controls.
-            </p>
-
-            <div style={{ padding: "14px 18px", background: "var(--surface-soft)", borderRadius: 12, marginBottom: 16, fontSize: 13 }}>
-              <strong>What to test:</strong> Click the "Trust & Verification 🛡️" tab on creator profiles to view the 5-point checklist and Heat-style Trust Meter.
-            </div>
-
-            <Link href="/creators/creator-001" className="button small">
-              Launch Scenario 4: Trust & Verification Panel ➔
-            </Link>
-          </div>
-
-          {/* SCENARIO 5 */}
-          <div
-            className="surface"
-            style={{
-              padding: 28,
-              borderRadius: 20,
-              border: "1.5px solid var(--line-strong)",
-              background: "#FFFFFF",
-            }}
-          >
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12, flexWrap: "wrap", gap: 10 }}>
-              <div>
-                <span style={{ fontSize: 11, fontWeight: 800, color: "var(--purple-primary)", textTransform: "uppercase" }}>Scenario 05</span>
-                <h2 style={{ margin: "4px 0", fontSize: 20, fontWeight: 800, color: "var(--ink)" }}>
-                  Visual Look-Alike & Aesthetic Similarity Search
-                </h2>
-              </div>
-              <span className="pill purple">Style Embeddings + Jaccard</span>
-            </div>
-
-            <p style={{ fontSize: 14, color: "var(--pencil)", lineHeight: 1.6, margin: "0 0 16px" }}>
-              Brands often have a moodboard image rather than keywords. The Look-Alike search analyzes color palette, lighting, framing, and generative models from a reference image to find creators with matching visual aesthetic signatures.
-            </p>
-
-            <div style={{ padding: "14px 18px", background: "var(--surface-soft)", borderRadius: 12, marginBottom: 16, fontSize: 13 }}>
-              <strong>What to test:</strong> Click the Look-Alike button on the discovery page or click the link below to load a pre-configured Tokyo Cyberpunk reference match.
-            </div>
-
-            <Link
-              href="/discover?lookalike=https%3A%2F%2Fimages.unsplash.com%2Fphoto-1509198397868-475647b2a1e5%3Fauto%3Dformat%26fit%3Dcrop%26w%3D800%26q%3D80"
-              className="button small"
+          {DEMO_EVALUATION_STEPS.map((s) => (
+            <div
+              key={s.scenario}
+              className="surface"
+              style={{
+                padding: 28,
+                borderRadius: 20,
+                border: "1.5px solid var(--line-strong)",
+                background: "#FFFFFF",
+              }}
             >
-              Launch Scenario 5: Visual Look-Alike Search ➔
-            </Link>
-          </div>
-
-          {/* SCENARIO 6 */}
-          <div
-            className="surface"
-            style={{
-              padding: 28,
-              borderRadius: 20,
-              border: "1.5px solid var(--line-strong)",
-              background: "#FFFFFF",
-            }}
-          >
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12, flexWrap: "wrap", gap: 10 }}>
-              <div>
-                <span style={{ fontSize: 11, fontWeight: 800, color: "var(--purple-primary)", textTransform: "uppercase" }}>Scenario 06</span>
-                <h2 style={{ margin: "4px 0", fontSize: 20, fontWeight: 800, color: "var(--ink)" }}>
-                  1-Click AI Brief Enhancement & Synergy Dream Team
-                </h2>
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 12, flexWrap: "wrap", gap: 10 }}>
+                <div>
+                  <span style={{ fontSize: 11, fontWeight: 800, color: "var(--purple-primary)", textTransform: "uppercase" }}>
+                    Scenario 0{s.scenario}
+                  </span>
+                  <h2 style={{ margin: "4px 0", fontSize: 20, fontWeight: 800, color: "var(--ink)" }}>
+                    {s.title}
+                  </h2>
+                </div>
+                <span className="pill purple">{s.badge}</span>
               </div>
-              <span className="pill purple">Multi-Creator Squad Builder</span>
+
+              <p style={{ fontSize: 14, color: "var(--pencil)", lineHeight: 1.6, margin: "0 0 16px" }}>
+                {s.description}
+              </p>
+
+              <div style={{ padding: "14px 18px", background: "var(--surface-soft)", borderRadius: 12, marginBottom: 16, fontSize: 13 }}>
+                <strong>What to test:</strong> {s.whatToLookFor}
+              </div>
+
+              <Link href={s.route} className="button small">
+                Launch Scenario {s.scenario}: {s.title} ➔
+              </Link>
             </div>
-
-            <p style={{ fontSize: 14, color: "var(--pencil)", lineHeight: 1.6, margin: "0 0 16px" }}>
-              Single creators often can't handle entire 3D + Video + Audio campaigns. Gemini analyzes campaigns to formulate complementary squads: a Visual Prompt Director, Generative Motion Synthesizer, 3D Asset Artist, and Audio/Foley Specialist with combined reach.
-            </p>
-
-            <div style={{ padding: "14px 18px", background: "var(--surface-soft)", borderRadius: 12, marginBottom: 16, fontSize: 13 }}>
-              <strong>What to test:</strong> View the published campaign briefs to see the multi-creator Dream Team breakdown and collective metrics.
-            </div>
-
-            <Link href="/briefs" className="button small">
-              Launch Scenario 6: Briefs & Dream Team Squads ➔
-            </Link>
-          </div>
+          ))}
         </section>
 
         {/* Technical Architecture Footer Note */}

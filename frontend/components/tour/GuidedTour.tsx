@@ -14,7 +14,7 @@ export interface TourStep {
   innovationTag: string;
 }
 
-const TOUR_STEPS: TourStep[] = [
+export const TOUR_STEPS: TourStep[] = [
   {
     step: 1,
     title: "Conversational AI Search & Discovery",

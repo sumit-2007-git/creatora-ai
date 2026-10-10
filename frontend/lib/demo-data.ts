@@ -5522,3 +5522,63 @@ export const demoBriefs: Brief[] = [
   }
 ];
 
+export interface DemoEvaluationStep {
+  scenario: number;
+  title: string;
+  badge: string;
+  whatToLookFor: string;
+  description: string;
+  route: string;
+}
+
+export const DEMO_EVALUATION_STEPS: DemoEvaluationStep[] = [
+  {
+    scenario: 1,
+    title: "Conversational AI Search & Live Facets",
+    badge: "FastAPI + Gemini Pydantic JSON",
+    whatToLookFor: "Natural query deconstruction with structured parameters, live facet counts, and deterministic relaxations.",
+    description: "Brands rarely know exact filter checkboxes. Natural queries like 'ad for sneakers' are deconstructed by Gemini into structured constraints with transparent rationale, live facet counts, and deterministic empty-state relaxations.",
+    route: "/discover",
+  },
+  {
+    scenario: 2,
+    title: "Tinder-Style Swipe Deck & 5% Trust Factor",
+    badge: "Transparent Match Scoring",
+    whatToLookFor: "Keyboard arrow swipe gestures and transparent 6-factor weight breakdown including 5% Trust Tier.",
+    description: "Browse candidate creators tailored to your brand brief. Transparent weighted breakdown: Genre (30%), Tools (25%), Content Type (20%), Audience (10%), Budget (10%), and Trust Tier (5%).",
+    route: "/brand/swipe",
+  },
+  {
+    scenario: 3,
+    title: "Workflow-First AI Portfolios with Draggable Split Slider",
+    badge: "Reproducible AI Workflows",
+    whatToLookFor: "Full-screen interactive split comparison slider between raw reference and final 8K render with node tools.",
+    description: "AI portfolios must show how pieces were crafted. Every piece features tools used, step durations, public/private prompt controls, and an interactive draggable comparison split slider.",
+    route: "/creators/creator-001",
+  },
+  {
+    scenario: 4,
+    title: "Gemini 1.5 Vision Proof Verifier & Trust Tiers",
+    badge: "Gemini Vision OCR + SSRF Guard",
+    whatToLookFor: "Four distinct trust tiers (Proof-Backed, Link-Checked, Self-Reported, Needs-Proof) with 5-point checklist.",
+    description: "Creatora separates truth from hype with 4 strict Trust Tiers: self-reported, link-checked, proof-backed, and needs-proof. Screenshot proof analyzed by Gemini 1.5 Vision.",
+    route: "/creators/creator-001",
+  },
+  {
+    scenario: 5,
+    title: "Visual Look-Alike & Aesthetic Similarity Search",
+    badge: "Style Embeddings + Jaccard",
+    whatToLookFor: "Finding creators by moodboard image aesthetics (palette, lighting, generative model signatures) rather than keywords.",
+    description: "The Look-Alike search analyzes color palette, lighting, framing, and generative models from a reference image to find creators with matching visual aesthetic signatures.",
+    route: "/discover?lookalike=https%3A%2F%2Fimages.unsplash.com%2Fphoto-1509198397868-475647b2a1e5%3Fauto%3Dformat%26fit%3Dcrop%26w%3D800%26q%3D80",
+  },
+  {
+    scenario: 6,
+    title: "1-Click AI Brief Enhancement & Synergy Dream Team",
+    badge: "Multi-Creator Squad Builder",
+    whatToLookFor: "Auto-formulation of complementary 3-creator squads (Director + Motion Synthesizer + Sound) with combined reach.",
+    description: "Gemini analyzes campaigns to formulate complementary squads: a Visual Prompt Director, Generative Motion Synthesizer, 3D Asset Artist, and Audio/Foley Specialist with combined reach.",
+    route: "/briefs",
+  },
+];
+

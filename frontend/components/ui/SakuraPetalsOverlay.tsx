@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-export function SakuraPetalsOverlay() {
+export function SakuraPetalsOverlay({ maxPetals = 7 }: { maxPetals?: number }) {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -15,16 +15,17 @@ export function SakuraPetalsOverlay() {
 
   if (!mounted) return null;
 
-  // Maximum 7 petals as specified
-  const petals = [
-    { id: 1, left: "8%", delay: "0s", duration: "14s", size: 16 },
-    { id: 2, left: "24%", delay: "3.5s", duration: "16s", size: 20 },
-    { id: 3, left: "42%", delay: "1.2s", duration: "15s", size: 18 },
-    { id: 4, left: "58%", delay: "5s", duration: "18s", size: 22 },
-    { id: 5, left: "72%", delay: "2.8s", duration: "13s", size: 17 },
-    { id: 6, left: "86%", delay: "6.2s", duration: "17s", size: 19 },
-    { id: 7, left: "95%", delay: "4.1s", duration: "15.5s", size: 15 },
+  // Petals with maximum count limit
+  const allPetals = [
+    { id: 1, left: "12%", delay: "0s", duration: "14s", size: 16 },
+    { id: 2, left: "45%", delay: "2.5s", duration: "16s", size: 20 },
+    { id: 3, left: "82%", delay: "5s", duration: "15s", size: 18 },
+    { id: 4, left: "28%", delay: "1.2s", duration: "18s", size: 22 },
+    { id: 5, left: "68%", delay: "3.8s", duration: "13s", size: 17 },
+    { id: 6, left: "92%", delay: "6.2s", duration: "17s", size: 19 },
+    { id: 7, left: "5%", delay: "4.1s", duration: "15.5s", size: 15 },
   ];
+  const petals = allPetals.slice(0, Math.min(maxPetals, 7));
 
   return (
     <div
